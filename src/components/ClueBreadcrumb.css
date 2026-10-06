@@ -1,0 +1,156 @@
+/* ──────────────────────────────────────
+   ClueBreadcrumb — Multi-hop iterative clue navigation
+   Phase 10: Clue Chaining
+   ────────────────────────────────────── */
+
+.clue-breadcrumb {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background-color: var(--gp-surface, #303134);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--gp-radius-card, 8px);
+  padding: 8px 14px;
+  margin-bottom: 20px;
+  width: 100%;
+  box-sizing: border-box;
+  animation: breadcrumbFadeIn 200ms ease;
+}
+
+@keyframes breadcrumbFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.clue-breadcrumb__track {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  white-space: nowrap;
+  flex: 1;
+}
+
+.clue-breadcrumb__track::-webkit-scrollbar {
+  display: none;
+}
+
+.clue-breadcrumb__separator {
+  color: var(--gp-secondary-text, #9aa0a6);
+  font-size: 13px;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.clue-breadcrumb__node {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--gp-on-surface, #e8eaed);
+  font-size: 12px;
+  font-weight: 500;
+  padding: 4px 8px;
+  border-radius: var(--gp-radius-pill, 9999px);
+  cursor: pointer;
+  transition:
+    background-color var(--gp-transition-fast, 150ms ease),
+    color var(--gp-transition-fast, 150ms ease),
+    border-color var(--gp-transition-fast, 150ms ease);
+  flex-shrink: 0;
+}
+
+.clue-breadcrumb__node:hover {
+  background-color: var(--gp-surface-hover, #35363a);
+  border-color: rgba(255, 255, 255, 0.12);
+  color: var(--gp-primary, #8ab4f8);
+}
+
+.clue-breadcrumb__node--search {
+  color: var(--gp-secondary-text, #9aa0a6);
+}
+
+.clue-breadcrumb__node--current {
+  background-color: var(--gp-primary-container, rgba(138, 180, 248, 0.16));
+  border-color: rgba(138, 180, 248, 0.3);
+  color: var(--gp-primary, #8ab4f8);
+  font-weight: 600;
+}
+
+.clue-breadcrumb__thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.clue-breadcrumb__clue-label {
+  color: var(--gp-on-surface, #e8eaed);
+  font-family: var(--font-mono, monospace);
+  font-size: 11px;
+}
+
+.clue-breadcrumb__mode-label {
+  color: var(--gp-primary, #8ab4f8);
+  font-size: 11px;
+  text-transform: capitalize;
+}
+
+.clue-breadcrumb__current-badge {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--gp-on-surface, #e8eaed);
+  padding: 4px 8px;
+  background-color: var(--gp-surface-variant, #3c4043);
+  border-radius: var(--gp-radius-pill, 9999px);
+  flex-shrink: 0;
+}
+
+.clue-breadcrumb__start-over-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--gp-secondary-text, #9aa0a6);
+  font-size: 12px;
+  font-weight: 500;
+  padding: 4px 10px;
+  border-radius: var(--gp-radius-pill, 9999px);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition:
+    background-color var(--gp-transition-fast, 150ms ease),
+    color var(--gp-transition-fast, 150ms ease);
+}
+
+.clue-breadcrumb__start-over-btn:hover {
+  background-color: var(--gp-surface-hover, #35363a);
+  color: var(--gp-on-surface, #e8eaed);
+  border-color: var(--gp-outline, #5f6368);
+}
+
+.clue-breadcrumb__start-over-btn .material-symbols-outlined {
+  font-size: 15px;
+}
+
+@media (max-width: 600px) {
+  .clue-breadcrumb {
+    padding: 6px 10px;
+    gap: 8px;
+  }
+
+  .clue-breadcrumb__start-over-btn span:last-child {
+    display: none;
+  }
+}

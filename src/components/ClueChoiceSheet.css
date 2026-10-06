@@ -1,0 +1,176 @@
+/* Clue Choice Sheet Styling */
+
+.clue-choice-sheet__container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Header section with 60x60 thumbnail */
+.clue-choice-sheet__header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 4px 0 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.clue-choice-sheet__thumb-wrapper {
+  width: 60px;
+  height: 60px;
+  min-width: 60px;
+  min-height: 60px;
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: var(--gp-surface-variant, #3c4043);
+  box-shadow: var(--gp-shadow-1, 0 1px 3px rgba(0, 0, 0, 0.3));
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.clue-choice-sheet__thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.clue-choice-sheet__thumb--placeholder {
+  color: var(--gp-secondary-text, #9aa0a6);
+}
+
+.clue-choice-sheet__header-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.clue-choice-sheet__title {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--gp-on-surface, #e8eaed);
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+.clue-choice-sheet__subtitle {
+  font-size: 0.875rem;
+  color: var(--gp-secondary-text, #9aa0a6);
+  line-height: 1.4;
+  margin: 0;
+}
+
+/* Strategy Option Cards */
+.clue-choice-sheet__options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.clue-choice-sheet__card {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 16px;
+  background-color: var(--gp-surface, #303134);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 14px;
+  cursor: pointer;
+  text-align: left;
+  transition: transform var(--gp-transition-fast, 150ms ease),
+              background-color var(--gp-transition-fast, 150ms ease),
+              border-color var(--gp-transition-fast, 150ms ease),
+              box-shadow var(--gp-transition-fast, 150ms ease);
+  outline: none;
+  box-sizing: border-box;
+}
+
+.clue-choice-sheet__card:hover {
+  background-color: var(--gp-surface-hover, #35363a);
+  border-color: rgba(138, 180, 248, 0.35);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+.clue-choice-sheet__card:active {
+  transform: scale(0.99);
+}
+
+.clue-choice-sheet__card:focus-visible {
+  border-color: var(--gp-primary, #8ab4f8);
+  box-shadow: 0 0 0 2px var(--gp-primary-container, rgba(138, 180, 248, 0.25));
+}
+
+/* Icon container with colored backgrounds */
+.clue-choice-sheet__card-icon-container {
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--gp-surface-variant, #3c4043);
+  font-size: 22px;
+  transition: transform var(--gp-transition-fast, 150ms ease);
+}
+
+.clue-choice-sheet__card:hover .clue-choice-sheet__card-icon-container {
+  transform: scale(1.06);
+}
+
+.clue-choice-sheet__card--similar .clue-choice-sheet__card-icon-container {
+  background-color: rgba(138, 180, 248, 0.16);
+}
+
+.clue-choice-sheet__card--memory .clue-choice-sheet__card-icon-container {
+  background-color: rgba(129, 201, 149, 0.16);
+}
+
+.clue-choice-sheet__card--best .clue-choice-sheet__card-icon-container {
+  background-color: rgba(197, 138, 249, 0.16);
+}
+
+.clue-choice-sheet__emoji {
+  line-height: 1;
+}
+
+/* Card typography */
+.clue-choice-sheet__card-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.clue-choice-sheet__card-title {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--gp-on-surface, #e8eaed);
+  letter-spacing: 0.01em;
+}
+
+.clue-choice-sheet__card-desc {
+  font-size: 0.825rem;
+  color: var(--gp-secondary-text, #9aa0a6);
+  line-height: 1.35;
+}
+
+/* Chevron */
+.clue-choice-sheet__card-arrow {
+  color: var(--gp-outline, #5f6368);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color var(--gp-transition-fast, 150ms ease),
+              transform var(--gp-transition-fast, 150ms ease);
+}
+
+.clue-choice-sheet__card:hover .clue-choice-sheet__card-arrow {
+  color: var(--gp-primary, #8ab4f8);
+  transform: translateX(2px);
+}

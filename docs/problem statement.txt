@@ -1,0 +1,1181 @@
+# MVP PRODUCT BUILD PROMPT
+# Google Photos — Memory Clue
+
+Build a functional MVP prototype for Google Photos called **Memory Clue**.
+
+The product should feel like a native Google Photos experience and should solve a specific retrieval problem:
+
+Users often remember a photo but cannot describe the photo precisely enough to search for it.
+
+For example:
+
+- “That small café we went to during our Goa trip.”
+- “The photo of the medicine I was taking last year.”
+- “That picture from my friend's birthday where we were sitting outside.”
+- “The photo of the hotel from our trip.”
+- “That document I took a photo of sometime last year.”
+
+The user may remember fragments of the memory but may not know the exact date, filename, object, location, or people in the photo.
+
+The core idea of this MVP is:
+
+> **The user does not need to find the photo they are looking for. They can find another photo that reminds them of it and use that photo as a clue.**
+
+The feature should therefore introduce a new retrieval interaction:
+
+> **Use this photo as a clue**
+
+This allows one recognizable photo to become a starting point for discovering another photo that the user cannot precisely describe.
+
+---
+
+# 1. PRODUCT NAME
+
+**Memory Clue**
+
+Core feature:
+
+**Use this photo as a clue**
+
+Core value proposition:
+
+> Turn a photo you recognize into a clue for finding the photo you can't describe.
+
+Supporting product statement:
+
+> You don't need to find the photo you're looking for. Find something that reminds you of it.
+
+---
+
+# 2. CORE USER PROBLEM
+
+Traditional photo search generally works when a user can describe the target photo using explicit attributes such as:
+
+- object
+- person
+- location
+- date
+- text
+- event
+- filename
+
+But real human memory is often incomplete.
+
+A user may know:
+
+“I remember what it looked like.”
+
+“I remember it happened around that trip.”
+
+“I remember another photo from the same moment.”
+
+“I know I have seen a related photo, but I can't describe the exact one.”
+
+The MVP should therefore explore a new retrieval paradigm:
+
+### Traditional retrieval
+
+User remembers target
+→ describes target
+→ searches
+→ finds target
+
+### Memory Clue retrieval
+
+User vaguely searches
+→ finds a recognizable related photo
+→ uses it as a clue
+→ Photos searches for connected photos
+→ finds the intended target
+
+The second approach should be the primary product hypothesis being tested.
+
+---
+
+# 3. MVP OBJECTIVE
+
+Build a working prototype that validates the hypothesis:
+
+> A recognizable non-target photo can act as an effective retrieval anchor for finding a target photo that the user cannot precisely describe.
+
+The prototype should demonstrate that users can:
+
+1. Search for something broadly.
+2. Identify a photo that feels related.
+3. Select that photo.
+4. Choose “Use this photo as a clue.”
+5. Tell Photos what kind of relationship they believe exists.
+6. Retrieve photos that are visually or contextually related.
+7. Continue using another result as another clue if necessary.
+8. Successfully find the intended target.
+
+The system should support both:
+
+### A. Demo Photos
+A curated mock photo dataset for reliable demonstrations.
+
+### B. My Photos
+Users can upload/import their own photos into the prototype and test Memory Clue with their real photo collection.
+
+Both modes should use the same retrieval experience.
+
+---
+
+# 4. IMPORTANT PRODUCT PRINCIPLE
+
+Do NOT turn this into a chatbot.
+
+Do NOT build a generic “Ask AI about your photos” interface.
+
+Do NOT make Gemini the primary UI.
+
+The experience should feel like a natural extension of Google Photos.
+
+AI/Gemini can be used behind the scenes for:
+
+- semantic understanding
+- relationship detection
+- ranking
+- query interpretation
+- combining multiple clues
+
+But the visible interaction should remain simple and photo-centric.
+
+---
+
+# 5. GOOGLE PHOTOS UI INTEGRATION
+
+Use the provided Google Photos screenshots as the primary visual reference.
+
+The interface should closely resemble Google Photos in:
+
+- typography
+- spacing
+- cards
+- image presentation
+- navigation
+- search
+- menus
+- selection behavior
+- modal/sheet behavior
+- overall visual hierarchy
+
+The prototype should NOT look like a generic AI startup dashboard.
+
+It should look like a Google Photos feature prototype.
+
+---
+
+# 6. NEW FEATURE ENTRY POINT
+
+When a user selects a photo and opens the existing three-dot (⋮) menu, retain the existing Google Photos actions.
+
+Add one new action:
+
+### Use this photo as a clue
+
+This should appear as a new option in the existing contextual menu.
+
+Do not create a large permanent button on the main screen.
+
+The intended interaction is:
+
+Select photo
+→ ⋮ menu
+→ Use this photo as a clue
+
+This should feel like a natural Google Photos action.
+
+---
+
+# 7. MEMORY CLUE CHOICE SHEET
+
+After selecting:
+
+**Use this photo as a clue**
+
+Open a bottom sheet/modal.
+
+Title:
+
+### Use this photo as a clue
+
+Supporting text:
+
+> What do you think this photo tells you about the memory you're looking for?
+
+Provide three retrieval strategies.
+
+---
+
+## OPTION 1 — SEARCH SIMILAR TO THIS PHOTO
+
+Title:
+
+### Search similar to this photo
+
+Description:
+
+> Find photos that look like this.
+
+This mode should prioritize visual and semantic similarity.
+
+Signals may include:
+
+- overall visual similarity
+- objects
+- colors
+- scene
+- composition
+- detected text
+- semantic labels
+- image embeddings
+- visually similar objects
+- visually similar packaging/documents/places
+
+IMPORTANT:
+
+This mode must NOT depend heavily on date.
+
+Example:
+
+Clue photo:
+Medicine package photographed in 2023
+
+Target photo:
+Similar medicine package photographed in 2025
+
+The 2025 photo should still be discoverable.
+
+The system should not assume that the target must be near the clue date.
+
+Suggested prototype ranking:
+
+- Visual similarity: 50%
+- Object similarity: 25%
+- Semantic similarity: 20%
+- Context: 5%
+
+These weights can be adjusted during experimentation.
+
+---
+
+# 8. OPTION 2 — SEARCH AROUND THIS MEMORY
+
+Title:
+
+### Search around this memory
+
+Description:
+
+> Find photos connected to this moment, place, people or event.
+
+This mode is NOT simply a date filter.
+
+It should attempt to identify photos belonging to the same broader memory.
+
+Use contextual signals such as:
+
+- time proximity
+- location/GPS proximity
+- neighboring photos
+- event/cluster
+- trip
+- people
+- recurring location
+- sequence of photos
+- shared semantic context
+- related activities
+- nearby images in the photo timeline
+
+Example:
+
+Clue photo:
+A restaurant photo taken during a Goa trip.
+
+Target:
+A photo of the beach taken during the same trip.
+
+The beach photo may look completely different from the restaurant photo.
+
+Search Around This Memory should still be capable of retrieving it because the relationship is contextual rather than visual.
+
+Suggested prototype ranking:
+
+- Event/cluster relationship: 30%
+- Temporal relationship: 25%
+- Location: 20%
+- People: 15%
+- Visual relationship: 10%
+
+---
+
+# 9. OPTION 3 — LET PHOTOS FIND THE BEST MATCH
+
+Title:
+
+### Let Photos find the best match
+
+Description:
+
+> Use the clues most likely to find what you're looking for.
+
+This is the AI-assisted option.
+
+The system should combine available signals and determine which signals are most useful.
+
+For example:
+
+A clue photo might have:
+
+- similar object
+- same location
+- same people
+- nearby time
+- same event
+
+The system should determine which combination is most likely to lead to the intended target.
+
+Gemini or another reasoning model may be used here as a ranking/reasoning layer.
+
+The AI should NOT simply generate a text answer.
+
+Instead, it should:
+
+1. Analyze the clue.
+2. Identify useful signals.
+3. Combine visual and contextual evidence.
+4. Rank candidate photos.
+5. Return the strongest candidates.
+6. Explain briefly why each result is relevant.
+
+Example explanation labels:
+
+- “Similar medicine packaging”
+- “Taken during the same trip”
+- “Taken 35 minutes after your clue photo”
+- “Same location”
+- “Same event”
+- “Same people”
+- “Similar document”
+- “Similar scene”
+
+---
+
+# 10. RESULTS EXPERIENCE
+
+After selecting one of the three modes, display results as a Google Photos-style grid.
+
+The experience should preserve context.
+
+Example:
+
+User initially searches:
+
+“medicine”
+
+Then selects a medicine photo.
+
+Then chooses:
+
+Use this photo as a clue
+→ Search similar to this photo
+
+The result screen should communicate:
+
+### Results related to your clue
+
+Then display the photos.
+
+Each candidate may optionally show a small reason/chip such as:
+
+- Similar appearance
+- Same place
+- Same event
+- Nearby in time
+- Same people
+- Similar text
+- Similar object
+
+The explanations should be subtle and native to the Photos UI.
+
+---
+
+# 11. CLUE CHAINING
+
+The MVP must support iterative discovery.
+
+A user should be able to select another photo from the new results and use that photo as another clue.
+
+Example:
+
+Search
+→ Clue A
+→ Search Similar
+→ Clue B
+→ Search Around This Memory
+→ Target
+
+This is called:
+
+### Clue chaining
+
+This is an important part of the product concept.
+
+Users do not always remember enough from the first clue.
+
+The product should allow them to progressively narrow the memory through recognizable photos.
+
+Provide a lightweight indication of the current clue path when useful.
+
+For example:
+
+> Search → Clue → Related photos → Clue → Related photos
+
+Do not overcomplicate the UI.
+
+---
+
+# 12. MY PHOTOS — USER-OWNED PHOTO TESTING
+
+The MVP must allow users to test Memory Clue using their own photos.
+
+This is important because the prototype should validate whether the concept works on real memories rather than only on curated demo data.
+
+Provide two clear entry modes:
+
+### Demo Photos
+
+Use a built-in curated dataset designed for demonstrations.
+
+### My Photos
+
+Upload/import the user's own photos into the prototype.
+
+The user should be able to select multiple photos at once and import a batch rather than uploading one image at a time.
+
+Example UI:
+
+### Test with your photos
+
+> Import a set of photos to try Memory Clue with your own memories.
+
+Button:
+
+**Add photos**
+
+Allow:
+
+- multi-file upload
+- batch import
+- large groups of photos where technically practical
+
+The prototype should support JPG, JPEG, PNG and common image formats.
+
+---
+
+# 13. PRIVACY FOR MY PHOTOS
+
+The prototype should clearly communicate how user photos are handled.
+
+Prefer a privacy-conscious implementation.
+
+Best MVP architecture:
+
+### Process photos locally in the browser where technically practical.
+
+Do NOT require:
+
+- Google account password
+- Google Photos credentials
+- access to the user's real Google Photos account
+- production Google Photos integration
+
+The user should be able to:
+
+### Clear imported photos
+
+Provide an obvious action that removes the uploaded test photos and associated prototype data.
+
+Display a short privacy note such as:
+
+> Your photos are used only for this prototype session.
+
+If some processing must happen on a backend or API, clearly indicate that to the user.
+
+Do not silently upload personal photos.
+
+---
+
+# 14. USER PHOTO ANALYSIS
+
+When users import their own photos, extract as many useful signals as technically available.
+
+For each photo attempt to derive:
+
+- image
+- filename
+- EXIF date/time
+- GPS coordinates
+- location
+- image dimensions
+- detected objects
+- semantic labels
+- text/OCR where appropriate
+- visual embedding
+- event/cluster information
+- people information where technically and legally appropriate
+- descriptive representation of the scene
+
+The system must gracefully handle missing metadata.
+
+For example:
+
+If a photo has no GPS:
+
+Do not fail.
+
+If a photo has no EXIF timestamp:
+
+Do not fail.
+
+If a photo contains no readable text:
+
+Do not fail.
+
+The retrieval system should use whichever signals are available.
+
+---
+
+# 15. SEARCHING USER PHOTOS
+
+The initial search experience in My Photos mode should support natural-language queries where practical.
+
+Examples:
+
+- “medicine”
+- “Goa”
+- “birthday”
+- “doctor”
+- “hotel”
+- “beach”
+- “car”
+- “document”
+- “restaurant”
+
+Search may use:
+
+- filename
+- extracted text
+- objects
+- semantic labels
+- image embeddings
+- metadata
+- AI interpretation
+
+The goal is not to build a perfect Google Photos search engine.
+
+The goal is to provide enough initial results for the user to discover a clue photo.
+
+---
+
+# 16. SEARCH SIMILAR IMPLEMENTATION
+
+For Search Similar to This Photo:
+
+Prioritize:
+
+1. Visual embedding similarity
+2. Object similarity
+3. Semantic similarity
+4. OCR/text similarity
+5. Minimal contextual signals
+
+Do NOT restrict results to:
+
+- the same date
+- the same year
+- the same event
+
+unless other evidence strongly suggests that relationship.
+
+Cross-year retrieval is explicitly required.
+
+Example:
+
+Clue:
+2023 medicine photo
+
+Target:
+2025 medicine photo
+
+The 2025 target should be considered.
+
+---
+
+# 17. SEARCH AROUND THIS MEMORY IMPLEMENTATION
+
+For Search Around This Memory:
+
+Use available context such as:
+
+- date/time
+- GPS
+- location
+- neighboring photos
+- event clusters
+- trip clusters
+- people
+- sequence
+- shared context
+
+Try to identify:
+
+### “What other photos belong to the same memory?”
+
+This should behave more like event/memory reconstruction than a strict date filter.
+
+Example:
+
+Restaurant photo:
+March 10, 7:30 PM, Goa
+
+Possible target:
+Beach photo:
+March 10, 5:00 PM, Goa
+
+Even though the target looks completely different, the system should rank it highly because it belongs to the same broader memory.
+
+---
+
+# 18. BEST MATCH IMPLEMENTATION
+
+The Best Match mode should combine multiple signals.
+
+Possible factors:
+
+- visual similarity
+- object similarity
+- semantic similarity
+- OCR/text
+- temporal proximity
+- location proximity
+- event similarity
+- people similarity
+- neighboring photos
+- trip relationship
+
+The model should adapt the weighting according to the clue.
+
+Example:
+
+Medicine clue:
+
+Visual/object similarity may dominate.
+
+Trip clue:
+
+Location/event/time may dominate.
+
+Birthday clue:
+
+People/event/time may dominate.
+
+Use AI reasoning to determine the strongest relationship where practical.
+
+---
+
+# 19. MOCK PHOTO DATASET
+
+Include a built-in dataset for reliable MVP demonstrations.
+
+Each photo should have metadata similar to:
+
+{
+  id,
+  image,
+  dateTime,
+  latitude,
+  longitude,
+  locationName,
+  people[],
+  objects[],
+  labels[],
+  eventId,
+  eventName,
+  description
+}
+
+The dataset should intentionally contain relationships that demonstrate the product concept.
+
+---
+
+# 20. REQUIRED DEMO SCENARIOS
+
+The MVP must support at least the following scenarios.
+
+## Scenario A — Cross-year visual similarity
+
+User searches:
+
+“medicine”
+
+User finds a medicine photo from 2023.
+
+User selects:
+
+Use this photo as a clue
+→ Search similar to this photo
+
+A visually/semantically similar medicine photo from 2025 should appear.
+
+This proves:
+
+### Similarity does not require date proximity.
+
+---
+
+## Scenario B — Same memory, different visual appearance
+
+User searches:
+
+“Goa”
+
+User finds a restaurant photo.
+
+User selects:
+
+Use this photo as a clue
+→ Search around this memory
+
+The results should include a beach photo from the same Goa trip.
+
+The images can look completely different.
+
+This proves:
+
+### Memory connection is different from visual similarity.
+
+---
+
+## Scenario C — AI best match
+
+User selects a clue where both visual and contextual relationships exist.
+
+Choose:
+
+Let Photos find the best match
+
+The system should combine the available signals and rank the strongest candidates.
+
+Display concise reasons for the ranking.
+
+---
+
+## Scenario D — Clue chaining
+
+User:
+
+Search
+→ finds clue
+→ Use this photo as a clue
+→ gets related photos
+→ selects another photo
+→ Use this photo as a clue
+→ searches again
+→ reaches target
+
+This should demonstrate progressive memory reconstruction.
+
+---
+
+## Scenario E — Different year
+
+Ensure at least one demo where:
+
+Clue = one year
+
+Target = another year
+
+Search Similar still succeeds.
+
+---
+
+## Scenario F — Same context, different appearance
+
+Ensure at least one demo where:
+
+Clue = one type of photo
+
+Target = visually different photo
+
+But both share:
+
+- trip
+- event
+- location
+- people
+- temporal relationship
+
+Search Around This Memory should outperform pure visual similarity.
+
+---
+
+# 21. FRONTEND BUILD WITH GOOGLE STITCH
+
+Use **Google Stitch** to create the frontend UI.
+
+Use the provided Google Photos screenshots as visual design references.
+
+Stitch should focus on:
+
+- Google Photos-like layout
+- navigation
+- search interface
+- photo grid
+- selection state
+- ⋮ contextual menu
+- new “Use this photo as a clue” option
+- clue choice sheet
+- result states
+- My Photos import experience
+- loading states
+- empty states
+- error states
+
+The interface should be polished and realistic enough for a product demo.
+
+---
+
+# 22. LOGIC / APPLICATION BUILD
+
+Use Cursor / Antigravity to implement the application logic.
+
+The implementation should connect the frontend to:
+
+- mock photo data
+- user-imported photos
+- metadata extraction
+- semantic search
+- visual similarity
+- contextual retrieval
+- ranking
+- clue chaining
+- Gemini/AI reasoning where useful
+
+The frontend and retrieval engine should work together as one functioning prototype.
+
+---
+
+# 23. USER FLOWS
+
+## FLOW 1 — Demo Photos
+
+Open app
+→ Demo Photos
+→ Search
+→ Search results
+→ Select photo
+→ ⋮
+→ Use this photo as a clue
+→ choose retrieval strategy
+→ related results
+→ optionally choose another clue
+→ target retrieved
+
+---
+
+## FLOW 2 — My Photos
+
+Open app
+→ My Photos
+→ Add photos
+→ Import batch
+→ Process/analyze photos
+→ Search
+→ Search results
+→ Select clue photo
+→ ⋮
+→ Use this photo as a clue
+→ choose retrieval strategy
+→ related results
+→ optionally chain another clue
+→ target retrieved
+
+---
+
+# 24. LOADING / PROCESSING EXPERIENCE
+
+For My Photos, show an understandable processing state after upload.
+
+Example:
+
+### Preparing your photos
+
+Analyzing:
+
+✓ Photos imported
+✓ Dates detected
+✓ Locations detected
+✓ Visual relationships prepared
+✓ Search index created
+
+Avoid exposing technical implementation details unless necessary.
+
+The user should understand that Photos is preparing the collection for retrieval.
+
+---
+
+# 25. EMPTY / FAILURE STATES
+
+The prototype should gracefully handle:
+
+- no matching photos
+- insufficient metadata
+- no visual match
+- no contextual relationship
+- unsupported files
+- processing errors
+
+Example:
+
+### We couldn't find a strong match
+
+> Try another clue photo or use a different search approach.
+
+Provide natural next actions:
+
+**Try another clue**
+
+or
+
+**Search again**
+
+---
+
+# 26. EXPLANATIONS / TRUST
+
+When results are returned, make it understandable why they were selected.
+
+Examples:
+
+> Similar medicine packaging
+
+> Same Goa trip
+
+> Taken 42 minutes from your clue
+
+> Same people
+
+> Similar document
+
+> Same location
+
+> Strong visual + contextual match
+
+The explanation should increase user trust without exposing unnecessary technical details.
+
+---
+
+# 27. MVP SCOPE
+
+Build only what is required to validate the concept.
+
+### MUST HAVE
+
+- Google Photos-inspired UI
+- Search
+- Photo selection
+- Existing ⋮ menu style
+- “Use this photo as a clue”
+- Three retrieval strategies
+- Visual similarity retrieval
+- Contextual/memory retrieval
+- Best-match retrieval
+- Results explanations
+- Clue chaining
+- Demo dataset
+- My Photos batch upload
+- User-photo analysis
+- User-photo retrieval
+- Clear imported photos option
+- Demo scenarios
+
+### DO NOT BUILD
+
+Do not build:
+
+- real Google account authentication
+- full Google Photos account integration
+- real Google Photos sync
+- backup
+- photo editing
+- album management
+- sharing infrastructure
+- full Google Photos replacement
+- production-scale storage
+- production AI infrastructure
+- generic AI chatbot
+- conversational photo assistant
+- full Google Photos redesign
+
+The prototype exists to test the Memory Clue interaction, not to recreate Google Photos.
+
+---
+
+# 28. PRIMARY PRODUCT HYPOTHESIS
+
+### Hypothesis 1
+
+Users can successfully retrieve difficult-to-describe memories when they can use a recognizable related photo as an anchor.
+
+---
+
+# 29. SECONDARY HYPOTHESES
+
+### Hypothesis 2
+
+Users understand and benefit from separating:
+
+- visual similarity
+- memory/context similarity
+- AI-selected best match
+
+### Hypothesis 3
+
+Users will naturally chain clues when the first clue does not directly surface the target.
+
+### Hypothesis 4
+
+Memory Clue can work with real user photo collections, not only curated datasets.
+
+---
+
+# 30. SUCCESS METRICS FOR THE MVP
+
+Primary metric:
+
+### Successful Retrieval Rate
+
+Percentage of retrieval tasks where the user finds the intended target photo using Memory Clue.
+
+Secondary metrics:
+
+- Time to retrieve target
+- Percentage of users who use Memory Clue
+- Success rate by retrieval mode
+- Number of clue hops
+- Number of photos viewed before success
+- Abandonment rate
+- Percentage of users choosing Search Similar
+- Percentage choosing Search Around This Memory
+- Percentage choosing Best Match
+- Success rate with Demo Photos
+- Success rate with My Photos
+
+---
+
+# 31. USER FEEDBACK
+
+After a retrieval attempt, optionally ask:
+
+### Did you find the photo you were looking for?
+
+Options:
+
+- Yes
+- Not yet
+- I'm not sure
+
+For successful retrieval:
+
+### What helped you find it?
+
+Possible options:
+
+- Similar appearance
+- Same place
+- Same event
+- Same people
+- Nearby in time
+- Another clue photo
+- Best Match
+
+This feedback can be used to evaluate which retrieval mechanism is most valuable.
+
+---
+
+# 32. IMPORTANT DESIGN PHILOSOPHY
+
+The product should not assume that the user knows exactly what they are searching for.
+
+Instead:
+
+### Search helps users discover clues.
+
+### Clues help users reconstruct memories.
+
+### Memory reconstruction helps users find the target.
+
+The product should feel like Photos is helping the user “follow the memory trail.”
+
+The experience should be:
+
+Recognize something
+→ use it as a clue
+→ discover relationships
+→ recognize another clue
+→ get closer to the target
+
+rather than:
+
+Type perfect query
+→ get exact answer.
+
+---
+
+# 33. FINAL MVP EXPERIENCE
+
+The final prototype should demonstrate this end-to-end experience:
+
+### User remembers a photo but cannot describe it.
+
+They perform a broad search.
+
+They find another photo that triggers recognition.
+
+They select it.
+
+They click:
+
+**Use this photo as a clue**
+
+Photos asks:
+
+### What kind of clue is this?
+
+**Search similar to this photo**
+
+**Search around this memory**
+
+**Let Photos find the best match**
+
+Photos returns related candidates with lightweight explanations.
+
+The user can select another candidate and use it as another clue.
+
+Eventually the user reaches the target photo.
+
+The same experience must work with both:
+
+### Demo Photos
+
+and
+
+### My Photos
+
+The ultimate MVP question is:
+
+> **Can a user find a photo they cannot describe by starting from a photo they can recognize?**
+
+Build the prototype specifically to answer that question.

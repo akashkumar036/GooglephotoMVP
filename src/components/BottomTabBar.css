@@ -1,0 +1,70 @@
+/* ──────────────────────────────────────
+   BottomTabBar — mobile only (≤1023px)
+   ────────────────────────────────────── */
+
+.bottom-tab-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background-color: var(--gp-bg);
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+@media (min-width: 1024px) {
+  .bottom-tab-bar {
+    display: none;
+  }
+}
+
+.bottom-tab {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  height: 100%;
+  text-decoration: none;
+  color: var(--gp-secondary-text);
+  transition: color var(--gp-transition-fast);
+  position: relative;
+}
+
+.bottom-tab--active {
+  color: var(--gp-primary);
+}
+
+/* Active indicator pill behind icon */
+.bottom-tab--active::before {
+  content: '';
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 56px;
+  height: 28px;
+  background-color: var(--gp-primary-container);
+  border-radius: var(--gp-radius-pill);
+}
+
+.bottom-tab__icon {
+  font-size: 22px;
+  position: relative;
+  z-index: 1;
+}
+
+.bottom-tab__label {
+  font-size: 11px;
+  font-weight: 500;
+  position: relative;
+  z-index: 1;
+}

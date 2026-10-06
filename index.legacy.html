@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Memory Clue — Google Photos</title>
+<meta name="description" content="Memory Clue: Turn a photo you recognize into a clue for finding the photo you can't describe."/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}}</style>
+<script src="https://cdn.tailwindcss.com"></script>
+<script id="tailwind-config">
+tailwind.config={darkMode:"class",theme:{extend:{colors:{"tertiary-fixed-dim":"#c0c1ff","primary-container":"#2563eb","secondary-container":"#2170e4","surface-container-high":"#e2e7ff","outline":"#737686","on-secondary-container":"#fefcff","on-error":"#ffffff","surface":"#faf8ff","surface-bright":"#faf8ff","on-surface-variant":"#434655","on-primary-container":"#eeefff","surface-dim":"#d2d9f4","tertiary-container":"#585be6","on-secondary-fixed-variant":"#004395","on-secondary":"#ffffff","on-tertiary-fixed-variant":"#2f2ebe","on-tertiary-fixed":"#07006c","primary-fixed":"#dbe1ff","on-primary":"#ffffff","surface-container":"#eaedff","outline-variant":"#c3c6d7","secondary-fixed-dim":"#adc6ff","secondary-fixed":"#d8e2ff","on-background":"#131b2e","surface-container-lowest":"#ffffff","on-primary-fixed":"#00174b","error-container":"#ffdad6","on-tertiary-container":"#f1eeff","background":"#faf8ff","surface-variant":"#dae2fd","on-tertiary":"#ffffff","on-primary-fixed-variant":"#003ea8","inverse-surface":"#283044","inverse-on-surface":"#eef0ff","surface-tint":"#0053db","surface-container-low":"#f2f3ff","tertiary":"#3e3fcc","primary-fixed-dim":"#b4c5ff","on-surface":"#131b2e","inverse-primary":"#b4c5ff","on-error-container":"#93000a","surface-container-highest":"#dae2fd","secondary":"#0058be","error":"#ba1a1a","tertiary-fixed":"#e1e0ff","primary":"#004ac6","on-secondary-fixed":"#001a42"},borderRadius:{DEFAULT:"0.25rem",lg:"0.5rem",xl:"0.75rem",full:"9999px"},spacing:{"space-xs":"0.25rem",margin:"2rem","space-xl":"2.5rem",gutter:"0.75rem","space-lg":"1.5rem","space-md":"1rem","gutter-mobile":"0.25rem","space-sm":"0.5rem","margin-mobile":"1rem"},fontFamily:{"label-sm":["Plus Jakarta Sans"],"headline-lg":["Plus Jakarta Sans"],"display-lg":["Plus Jakarta Sans"],"headline-md":["Plus Jakarta Sans"],"body-lg":["Plus Jakarta Sans"],"body-sm":["Plus Jakarta Sans"],"body-md":["Plus Jakarta Sans"],"label-md":["Plus Jakarta Sans"],"display-lg-mobile":["Plus Jakarta Sans"],"headline-sm":["Plus Jakarta Sans"],"label-lg":["Plus Jakarta Sans"]},fontSize:{"label-sm":["11px",{lineHeight:"14px",letterSpacing:"0.025em",fontWeight:"600"}],"headline-lg":["28px",{lineHeight:"36px",letterSpacing:"-0.02em",fontWeight:"600"}],"display-lg":["40px",{lineHeight:"48px",letterSpacing:"-0.025em",fontWeight:"700"}],"headline-md":["22px",{lineHeight:"30px",letterSpacing:"-0.015em",fontWeight:"600"}],"body-lg":["16px",{lineHeight:"24px",letterSpacing:"-0.005em",fontWeight:"400"}],"body-sm":["13px",{lineHeight:"18px",letterSpacing:"0.005em",fontWeight:"400"}],"body-md":["14px",{lineHeight:"20px",letterSpacing:"0em",fontWeight:"400"}],"label-md":["12px",{lineHeight:"16px",letterSpacing:"0.01em",fontWeight:"500"}],"display-lg-mobile":["30px",{lineHeight:"38px",letterSpacing:"-0.02em",fontWeight:"700"}],"headline-sm":["18px",{lineHeight:"26px",letterSpacing:"-0.01em",fontWeight:"600"}],"label-lg":["14px",{lineHeight:"20px",letterSpacing:"0.005em",fontWeight:"600"}]}}}};
+</script>
+<style>
+  ::-webkit-scrollbar{display:none;}
+  .view{display:none!important;}
+  .view.active{display:flex!important;}
+
+  /* Photo card */
+  .photo-card{position:relative;cursor:pointer;overflow:hidden;background:#e8eaed;}
+  .photo-card img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .2s ease;}
+  .photo-card:hover img{transform:scale(1.04);}
+  .photo-card .card-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.5) 0%,transparent 55%);opacity:0;transition:opacity .2s;}
+  .photo-card:hover .card-overlay{opacity:1;}
+  .photo-card .card-menu{position:absolute;top:6px;right:6px;opacity:0;transition:opacity .2s;z-index:2;}
+  .photo-card:hover .card-menu{opacity:1;}
+  .photo-card .reason-chip{position:absolute;bottom:6px;left:6px;right:6px;z-index:2;}
+  .photo-card.selected::after{content:'';position:absolute;inset:0;border:3px solid #004ac6;border-radius:2px;pointer-events:none;z-index:3;}
+  .photo-card .sel-badge{position:absolute;top:6px;left:6px;z-index:4;display:none;}
+  .photo-card.selected .sel-badge{display:flex;}
+
+  /* Per-card context menu */
+  .card-ctx{position:absolute;top:38px;right:6px;z-index:100;display:none;min-width:260px;}
+  .card-ctx.open{display:block;}
+
+  /* Bottom sheet */
+  #sheet-backdrop{display:none;align-items:flex-end;}
+  #sheet-backdrop.open{display:flex;}
+  #clue-sheet{transform:translateY(100%);transition:transform .35s cubic-bezier(0.32,0.72,0,1);}
+  #sheet-backdrop.open #clue-sheet{transform:translateY(0);}
+
+  /* Feedback */
+  #feedback-wrap{transform:translateY(140%);transition:transform .3s ease;pointer-events:none;}
+  #feedback-wrap.open{transform:translateY(0);pointer-events:all;}
+
+  /* Processing */
+  .proc-step{opacity:.3;transition:opacity .5s;}
+  .proc-step.done{opacity:1;}
+  .proc-step.done .proc-ico{color:#1e8e3e;}
+  .proc-ico{color:#737686;transition:color .4s;}
+
+  /* Animations */
+  @keyframes fadeUp{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+  .card-in{animation:fadeUp .25s ease forwards;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  .spin{animation:spin .8s linear infinite;}
+  @keyframes pulseDot{0%,80%,100%{transform:scale(.6);opacity:.4;}40%{transform:scale(1);opacity:1;}}
+  .pdot{animation:pulseDot 1.2s infinite;}
+  .pdot:nth-child(2){animation-delay:.2s;}
+  .pdot:nth-child(3){animation-delay:.4s;}
+
+  /* Breadcrumb */
+  #breadcrumb{display:none;}
+  #breadcrumb.on{display:flex;}
+</style>
+</head>
+
+<body class="bg-surface font-body-md text-on-surface antialiased">
+
+<!-- ══════════════════════════════════════════
+     GLOBAL TOAST  (matches stitch exactly)
+══════════════════════════════════════════ -->
+<div class="fixed top-20 left-1/2 -translate-x-1/2 z-[200] pointer-events-none transition-all duration-300 opacity-0 translate-y-2 flex items-center gap-2 px-4 py-2.5 rounded-full bg-inverse-surface/90 text-inverse-on-surface shadow-2xl backdrop-blur-md font-label-md text-label-md" id="toast">
+  <span class="material-symbols-outlined text-[18px] text-tertiary-fixed" id="ti">check_circle</span>
+  <span id="tt">Updated</span>
+</div>
+
+<!-- ══════════════════════════════════════════
+     CLUE CHOICE BOTTOM SHEET
+══════════════════════════════════════════ -->
+<div class="fixed inset-0 z-[150] bg-black/40 backdrop-blur-sm" id="sheet-backdrop" onclick="if(event.target===this)closeSheet()">
+  <div class="w-full max-w-lg mx-auto" id="clue-sheet">
+    <div class="bg-surface-container-lowest rounded-t-[20px] shadow-2xl px-space-md pt-3 pb-8">
+      <div class="w-10 h-1 bg-outline-variant rounded-full mx-auto mb-space-md"></div>
+      <!-- Clue header -->
+      <div class="flex items-center gap-space-sm mb-space-md">
+        <img alt="Clue photo" class="w-14 h-14 rounded-xl object-cover shadow-md shrink-0" id="sheet-thumb" src=""/>
+        <div>
+          <p class="font-label-sm text-label-sm uppercase tracking-widest text-outline mb-0.5">Use this photo as a clue</p>
+          <p class="font-body-sm text-body-sm text-on-surface-variant leading-snug">What does this tell you about<br/>the memory you're looking for?</p>
+        </div>
+      </div>
+      <div class="h-px bg-surface-container-high mb-space-sm"></div>
+
+      <!-- Option 1: Search Similar -->
+      <button class="w-full flex items-start gap-space-sm p-space-sm rounded-xl hover:bg-surface-container transition-colors text-left mb-1 group" id="btn-similar">
+        <div class="w-10 h-10 rounded-full bg-primary-fixed flex items-center justify-center shrink-0 mt-0.5">
+          <span class="material-symbols-outlined text-primary text-[20px]">image_search</span>
+        </div>
+        <div class="flex-1 min-w-0">
+          <p class="font-label-lg text-label-lg text-on-surface">Search similar to this photo</p>
+          <p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Find photos that look like this — same object, packaging, or scene.</p>
+        </div>
+        <span class="material-symbols-outlined text-outline text-[20px] mt-1 shrink-0">chevron_right</span>
+      </button>
+
+      <!-- Option 2: Search Around Memory -->
+      <button class="w-full flex items-start gap-space-sm p-space-sm rounded-xl hover:bg-surface-container transition-colors text-left mb-1 group" id="btn-memory">
+        <div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center shrink-0 mt-0.5">
+          <span class="material-symbols-outlined text-[20px]" style="color:#1e8e3e">location_on</span>
+        </div>
+        <div class="flex-1 min-w-0">
+          <p class="font-label-lg text-label-lg text-on-surface">Search around this memory</p>
+          <p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Find photos from the same moment, place, people, or event.</p>
+        </div>
+        <span class="material-symbols-outlined text-outline text-[20px] mt-1 shrink-0">chevron_right</span>
+      </button>
+
+      <!-- Option 3: Best Match -->
+      <button class="w-full flex items-start gap-space-sm p-space-sm rounded-xl hover:bg-surface-container transition-colors text-left group" id="btn-best">
+        <div class="w-10 h-10 rounded-full bg-tertiary-fixed flex items-center justify-center shrink-0 mt-0.5">
+          <span class="material-symbols-outlined text-tertiary text-[20px]">auto_awesome</span>
+        </div>
+        <div class="flex-1 min-w-0">
+          <p class="font-label-lg text-label-lg text-on-surface">Let Photos find the best match</p>
+          <p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">AI picks the strongest combination of visual and contextual clues.</p>
+        </div>
+        <span class="material-symbols-outlined text-outline text-[20px] mt-1 shrink-0">chevron_right</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     FEEDBACK BAR
+══════════════════════════════════════════ -->
+<div class="fixed bottom-20 lg:bottom-space-md left-1/2 -translate-x-1/2 z-[140] w-full max-w-md px-space-sm" id="feedback-wrap">
+  <!-- Q1 -->
+  <div class="bg-inverse-surface rounded-2xl shadow-2xl p-space-md" id="fq1">
+    <p class="text-inverse-on-surface font-label-lg text-label-lg mb-space-sm">Did you find the photo you were looking for?</p>
+    <div class="flex gap-space-sm">
+      <button class="flex-1 py-2 rounded-xl bg-primary text-on-primary font-label-lg text-label-lg hover:opacity-90" onclick="fbYes()">Yes ✓</button>
+      <button class="flex-1 py-2 rounded-xl bg-white/10 text-inverse-on-surface font-label-md text-label-md hover:bg-white/20" onclick="fbNotYet()">Not yet</button>
+      <button class="flex-1 py-2 rounded-xl bg-white/10 text-inverse-on-surface font-label-md text-label-md hover:bg-white/20" onclick="closeFb()">Not sure</button>
+    </div>
+  </div>
+  <!-- Q2 (Yes follow-up) -->
+  <div class="bg-inverse-surface rounded-2xl shadow-2xl p-space-md hidden" id="fq2">
+    <p class="text-inverse-on-surface font-label-lg text-label-lg mb-space-sm">What helped you find it?</p>
+    <div class="flex flex-wrap gap-1.5 mb-space-sm" id="fq2-tags">
+      <button class="px-3 py-1 rounded-full bg-white/10 text-inverse-on-surface font-label-md text-label-md hover:bg-primary/60 transition-colors" onclick="toggleTag(this)">Similar appearance</button>
+      <button class="px-3 py-1 rounded-full bg-white/10 text-inverse-on-surface font-label-md text-label-md hover:bg-primary/60 transition-colors" onclick="toggleTag(this)">Same place</button>
+      <button class="px-3 py-1 rounded-full bg-white/10 text-inverse-on-surface font-label-md text-label-md hover:bg-primary/60 transition-colors" onclick="toggleTag(this)">Same event</button>
+      <button class="px-3 py-1 rounded-full bg-white/10 text-inverse-on-surface font-label-md text-label-md hover:bg-primary/60 transition-colors" onclick="toggleTag(this)">Same people</button>
+      <button class="px-3 py-1 rounded-full bg-white/10 text-inverse-on-surface font-label-md text-label-md hover:bg-primary/60 transition-colors" onclick="toggleTag(this)">Nearby in time</button>
+      <button class="px-3 py-1 rounded-full bg-white/10 text-inverse-on-surface font-label-md text-label-md hover:bg-primary/60 transition-colors" onclick="toggleTag(this)">Another clue</button>
+      <button class="px-3 py-1 rounded-full bg-white/10 text-inverse-on-surface font-label-md text-label-md hover:bg-primary/60 transition-colors" onclick="toggleTag(this)">Best Match</button>
+    </div>
+    <button class="w-full py-2 rounded-xl bg-primary text-on-primary font-label-lg text-label-lg hover:opacity-90" onclick="closeFb()">Done</button>
+  </div>
+  <!-- Q3 (Not yet follow-up) -->
+  <div class="bg-inverse-surface rounded-2xl shadow-2xl p-space-md hidden" id="fq3">
+    <p class="text-inverse-on-surface font-label-lg text-label-lg mb-space-sm">Keep going — try another approach</p>
+    <div class="flex gap-space-sm">
+      <button class="flex-1 py-2 rounded-xl bg-white/10 text-inverse-on-surface font-label-md text-label-md hover:bg-white/20" onclick="closeFb(); nav('grid')">Try another clue</button>
+      <button class="flex-1 py-2 rounded-xl bg-primary text-on-primary font-label-md text-label-md hover:opacity-90" onclick="closeFb(); nav('search')">Search again</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     HEADER  (exact stitch structure)
+══════════════════════════════════════════ -->
+<header class="fixed top-0 left-0 right-0 h-16 bg-surface-container-lowest/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40 flex items-center justify-between px-space-md lg:px-space-lg gap-space-md">
+  <div class="flex items-center gap-space-sm shrink-0">
+    <button class="p-space-xs rounded-full hover:bg-surface-container text-on-surface-variant hover:text-on-surface lg:hidden" type="button" onclick="toggleSidebar()">
+      <span class="material-symbols-outlined text-[22px]">menu</span>
+    </button>
+    <button class="flex items-center gap-space-sm" onclick="nav('grid')">
+      <span class="material-symbols-outlined text-primary text-[26px]">photo_library</span>
+      <span class="font-headline-sm text-headline-sm text-on-surface tracking-tight font-bold hidden sm:inline-block">Photos</span>
+    </button>
+    <span class="font-label-sm text-label-sm px-space-xs py-0.5 rounded-full bg-primary text-on-primary font-semibold tracking-wide ml-0.5">Memory Clue</span>
+  </div>
+
+  <!-- Search bar -->
+  <div class="flex-1 max-w-2xl mx-space-sm hidden md:block">
+    <div class="relative flex items-center w-full h-11 bg-surface-container-low rounded-full px-space-md text-on-surface-variant focus-within:bg-surface-container-lowest focus-within:ring-2 focus-within:ring-primary/20 shadow-[0_2px_8px_rgba(0,0,0,0.02)] transition-all">
+      <span class="material-symbols-outlined text-outline text-[20px] mr-space-sm shrink-0">search</span>
+      <input class="w-full bg-transparent border-0 outline-none font-body-sm text-body-sm text-on-surface placeholder:text-outline" id="hdr-search" placeholder="Search photos, places, people, things…" type="text" onkeydown="if(event.key==='Enter'){nav('search');doSearch(this.value);}"/>
+      <button class="p-1 text-outline hover:text-on-surface rounded-full transition-colors" type="button">
+        <span class="material-symbols-outlined text-[18px]">mic</span>
+      </button>
+      <span class="font-label-sm text-label-sm text-outline bg-surface-container-highest px-1.5 py-0.5 rounded ml-space-xs hidden lg:inline-block">⌘K</span>
+    </div>
+  </div>
+
+  <!-- Right actions -->
+  <div class="flex items-center gap-space-xs sm:gap-space-sm shrink-0">
+    <div class="hidden xl:flex items-center gap-1.5 px-space-sm py-1 rounded-full bg-surface-container-low text-on-surface-variant">
+      <span class="material-symbols-outlined text-[16px] text-primary">cloud_done</span>
+      <span class="font-label-sm text-label-sm text-on-surface-variant">All backed up</span>
+    </div>
+    <button class="hidden sm:flex items-center gap-1 h-9 px-space-md rounded-full bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-md text-label-md transition-colors" onclick="nav('import')">
+      <span class="material-symbols-outlined text-[18px]">add_photo_alternate</span>
+      <span>My Photos</span>
+    </button>
+    <button class="flex items-center gap-1 h-9 px-space-md rounded-full bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md shadow-[0_2px_8px_rgba(37,99,235,0.25)] transition-all" onclick="nav('import')">
+      <span class="material-symbols-outlined text-[18px]">upload</span>
+      <span class="hidden sm:inline">Upload</span>
+      <span class="material-symbols-outlined text-[16px]">arrow_drop_down</span>
+    </button>
+    <button class="p-space-xs rounded-full hover:bg-surface-container text-on-surface-variant hover:text-on-surface transition-colors hidden sm:inline-flex">
+      <span class="material-symbols-outlined text-[20px]">help_outline</span>
+    </button>
+    <div class="relative flex items-center justify-center p-0.5 rounded-full ring-2 ring-primary/30 ring-offset-2 ring-offset-surface-container-lowest" title="42.8 GB of 100 GB used">
+      <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center">
+        <span class="material-symbols-outlined text-on-primary text-[18px]">person</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ══════════════════════════════════════════
+     SIDEBAR  (exact stitch structure)
+══════════════════════════════════════════ -->
+<aside class="fixed left-0 top-16 bottom-0 w-64 bg-surface-container-lowest/80 backdrop-blur-md z-30 hidden lg:flex flex-col justify-between p-space-md overflow-y-auto" id="sidebar">
+  <div class="flex flex-col gap-space-md">
+    <nav class="flex flex-col gap-1">
+      <button onclick="nav('grid')" class="flex items-center justify-between px-space-md py-2.5 rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors text-left w-full" id="nav-photos">
+        <div class="flex items-center gap-space-sm">
+          <span class="material-symbols-outlined text-[20px]">photo_library</span>
+          <span class="font-label-lg text-label-lg">Photos</span>
+        </div>
+        <span class="font-label-sm text-label-sm text-outline" id="photo-count">40</span>
+      </button>
+      <button onclick="nav('search')" class="flex items-center justify-between px-space-md py-2.5 rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors text-left w-full">
+        <div class="flex items-center gap-space-sm">
+          <span class="material-symbols-outlined text-[20px]">auto_awesome</span>
+          <span class="font-label-lg text-label-lg">Explore &amp; Search</span>
+        </div>
+      </button>
+      <button onclick="nav('grid')" class="flex items-center justify-between px-space-md py-2.5 rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors text-left w-full">
+        <div class="flex items-center gap-space-sm">
+          <span class="material-symbols-outlined text-[20px]">favorite</span>
+          <span class="font-label-lg text-label-lg">Favorites</span>
+        </div>
+        <span class="font-label-sm text-label-sm text-outline">142</span>
+      </button>
+      <button onclick="nav('grid')" class="flex items-center justify-between px-space-md py-2.5 rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors text-left w-full">
+        <div class="flex items-center gap-space-sm">
+          <span class="material-symbols-outlined text-[20px]">photo_album</span>
+          <span class="font-label-lg text-label-lg">Albums</span>
+        </div>
+        <span class="font-label-sm text-label-sm text-outline">18</span>
+      </button>
+      <button onclick="nav('grid')" class="flex items-center justify-between px-space-md py-2.5 rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors text-left w-full">
+        <div class="flex items-center gap-space-sm">
+          <span class="material-symbols-outlined text-[20px]">slideshow</span>
+          <span class="font-label-lg text-label-lg">Memories</span>
+        </div>
+        <span class="font-label-sm text-label-sm px-1.5 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-semibold">New</span>
+      </button>
+      <button class="flex items-center justify-between px-space-md py-2.5 rounded-full bg-primary-fixed text-primary transition-colors text-left w-full font-bold">
+        <div class="flex items-center gap-space-sm">
+          <span class="material-symbols-outlined text-[20px]">tips_and_updates</span>
+          <span class="font-label-lg text-label-lg">Memory Clue</span>
+        </div>
+        <span class="font-label-sm text-label-sm px-1.5 py-0.5 rounded-full bg-primary text-on-primary font-semibold">Beta</span>
+      </button>
+    </nav>
+
+    <div class="pt-space-sm">
+      <p class="px-space-md font-label-sm text-label-sm uppercase tracking-wider text-outline mb-1.5">Library</p>
+      <nav class="flex flex-col gap-1">
+        <button class="flex items-center justify-between px-space-md py-2 rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors text-left w-full">
+          <div class="flex items-center gap-space-sm">
+            <span class="material-symbols-outlined text-[20px]">archive</span>
+            <span class="font-label-md text-label-md">Archive</span>
+          </div>
+        </button>
+        <button class="flex items-center justify-between px-space-md py-2 rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors text-left w-full">
+          <div class="flex items-center gap-space-sm">
+            <span class="material-symbols-outlined text-[20px]">document_scanner</span>
+            <span class="font-label-md text-label-md">Utilities</span>
+          </div>
+        </button>
+        <button onclick="nav('import')" class="flex items-center justify-between px-space-md py-2 rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors text-left w-full">
+          <div class="flex items-center gap-space-sm">
+            <span class="material-symbols-outlined text-[20px]">add_photo_alternate</span>
+            <div class="flex flex-col">
+              <span class="font-label-md text-label-md leading-tight">My Photos</span>
+              <span class="font-label-sm text-label-sm text-outline">Upload your own</span>
+            </div>
+          </div>
+        </button>
+      </nav>
+    </div>
+  </div>
+
+  <div class="pt-space-md flex flex-col gap-space-sm">
+    <div class="p-space-sm rounded-xl bg-surface-container-low flex flex-col gap-1.5">
+      <div class="flex items-center justify-between font-label-sm text-label-sm text-on-surface">
+        <span class="font-medium">Storage</span>
+        <span>42.8 GB of 100 GB</span>
+      </div>
+      <div class="w-full h-1.5 bg-surface-container-highest rounded-full overflow-hidden">
+        <div class="h-full bg-primary rounded-full" style="width:42.8%"></div>
+      </div>
+      <a class="font-label-sm text-label-sm text-primary hover:underline self-start pt-0.5" href="#">Manage storage</a>
+    </div>
+    <div class="flex items-center justify-between px-space-xs text-on-surface-variant">
+      <a class="flex items-center gap-space-xs py-1.5 px-space-xs rounded-lg hover:text-on-surface font-label-md text-label-md transition-colors" href="#">
+        <span class="material-symbols-outlined text-[20px]">settings</span>
+        <span>Settings</span>
+      </a>
+      <button class="p-1.5 rounded-lg hover:bg-surface-container hover:text-on-surface transition-colors" title="Collapse sidebar">
+        <span class="material-symbols-outlined text-[18px]">keyboard_double_arrow_left</span>
+      </button>
+    </div>
+  </div>
+</aside>
+
+<!-- ══════════════════════════════════════════
+     MAIN LAYOUT SHELL
+══════════════════════════════════════════ -->
+<div class="lg:pl-64 flex flex-col min-h-screen">
+<main class="w-full pt-16 pb-20 lg:pb-0 bg-surface flex-1 px-gutter lg:px-space-lg">
+<div class="flex flex-col w-full">
+
+<!-- ────────────────────────────────────────
+     VIEW: GRID (Photo library)
+──────────────────────────────────────────── -->
+<div class="view active flex-col" id="v-grid">
+  <!-- Breadcrumb (clue chaining) -->
+  <div class="items-center gap-1.5 pt-space-md pb-space-sm overflow-x-auto font-label-sm text-label-sm text-on-surface-variant" id="breadcrumb">
+    <div class="flex items-center gap-1.5 shrink-0" id="bc-content"></div>
+  </div>
+
+  <!-- Section heading -->
+  <div class="flex items-center justify-between py-space-sm">
+    <div>
+      <h2 class="font-headline-md text-headline-md text-on-surface" id="grid-title">Demo Photos</h2>
+      <p class="font-label-sm text-label-sm text-outline mt-0.5" id="grid-sub">40 photos · Tap ⋮ on any photo to use it as a clue</p>
+    </div>
+    <div class="flex items-center gap-space-sm">
+      <button onclick="nav('search')" class="flex items-center gap-1 h-9 px-space-md rounded-full bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-md text-label-md transition-colors">
+        <span class="material-symbols-outlined text-[18px]">search</span>Search
+      </button>
+      <button onclick="nav('import')" class="hidden sm:flex items-center gap-1 h-9 px-space-md rounded-full border border-outline-variant text-on-surface-variant hover:bg-surface-container font-label-md text-label-md transition-colors">
+        <span class="material-symbols-outlined text-[18px]">add_photo_alternate</span>My Photos
+      </button>
+    </div>
+  </div>
+
+  <!-- Demo mode selector cards -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-space-sm mb-space-md" id="mode-cards">
+    <button onclick="startDemo()" class="flex items-center gap-space-sm p-space-sm rounded-xl bg-primary-fixed hover:bg-primary-fixed/70 transition-colors text-left">
+      <div class="w-9 h-9 rounded-full bg-primary flex items-center justify-center shrink-0">
+        <span class="material-symbols-outlined text-on-primary text-[18px]">collections</span>
+      </div>
+      <div>
+        <p class="font-label-lg text-label-lg text-on-surface">Demo Photos</p>
+        <p class="font-label-sm text-label-sm text-on-surface-variant">40 curated photos · 6 scenarios</p>
+      </div>
+      <span class="material-symbols-outlined text-primary text-[18px] ml-auto">arrow_forward</span>
+    </button>
+    <button onclick="nav('import')" class="flex items-center gap-space-sm p-space-sm rounded-xl bg-surface-container-low hover:bg-surface-container transition-colors text-left border border-outline-variant">
+      <div class="w-9 h-9 rounded-full bg-surface-container-high flex items-center justify-center shrink-0">
+        <span class="material-symbols-outlined text-on-surface-variant text-[18px]">add_photo_alternate</span>
+      </div>
+      <div>
+        <p class="font-label-lg text-label-lg text-on-surface">My Photos</p>
+        <p class="font-label-sm text-label-sm text-on-surface-variant">Upload your own · local only</p>
+      </div>
+      <span class="material-symbols-outlined text-on-surface-variant text-[18px] ml-auto">arrow_forward</span>
+    </button>
+  </div>
+
+  <!-- Photo grid -->
+  <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 gap-0.5" id="main-grid"></div>
+</div>
+
+<!-- ────────────────────────────────────────
+     VIEW: SEARCH
+──────────────────────────────────────────── -->
+<div class="view flex-col" id="v-search">
+  <div class="py-space-md">
+    <div class="flex items-center gap-space-sm mb-space-md">
+      <button onclick="goBack()" class="w-9 h-9 flex items-center justify-center rounded-full hover:bg-surface-container text-on-surface-variant shrink-0">
+        <span class="material-symbols-outlined text-[20px]">arrow_back</span>
+      </button>
+      <div class="flex-1 flex items-center h-11 bg-surface-container-low rounded-full px-space-md text-on-surface-variant focus-within:bg-surface-container-lowest focus-within:ring-2 focus-within:ring-primary/20 shadow-[0_2px_8px_rgba(0,0,0,0.02)] transition-all">
+        <span class="material-symbols-outlined text-outline text-[20px] mr-space-sm shrink-0">search</span>
+        <input autofocus class="w-full bg-transparent border-0 outline-none font-body-sm text-body-sm text-on-surface placeholder:text-outline" id="s-input" placeholder="Search photos, places, things…" type="text" oninput="liveSearch(this.value)" onkeydown="if(event.key==='Enter')doSearch(this.value)"/>
+        <button onclick="clearSearch()" class="p-1 text-outline hover:text-on-surface rounded-full">
+          <span class="material-symbols-outlined text-[18px]">close</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Quick pills -->
+    <div class="flex gap-space-sm overflow-x-auto pb-space-sm mb-space-sm">
+      <span class="font-label-sm text-label-sm text-outline shrink-0 self-center">Try:</span>
+      <button onclick="doSearch('medicine')" class="shrink-0 px-space-md py-1.5 rounded-full bg-surface-container text-on-surface-variant font-label-md text-label-md hover:bg-primary-fixed hover:text-primary transition-colors">medicine</button>
+      <button onclick="doSearch('goa')" class="shrink-0 px-space-md py-1.5 rounded-full bg-surface-container text-on-surface-variant font-label-md text-label-md hover:bg-primary-fixed hover:text-primary transition-colors">Goa</button>
+      <button onclick="doSearch('birthday')" class="shrink-0 px-space-md py-1.5 rounded-full bg-surface-container text-on-surface-variant font-label-md text-label-md hover:bg-primary-fixed hover:text-primary transition-colors">birthday</button>
+      <button onclick="doSearch('beach')" class="shrink-0 px-space-md py-1.5 rounded-full bg-surface-container text-on-surface-variant font-label-md text-label-md hover:bg-primary-fixed hover:text-primary transition-colors">beach</button>
+      <button onclick="doSearch('document')" class="shrink-0 px-space-md py-1.5 rounded-full bg-surface-container text-on-surface-variant font-label-md text-label-md hover:bg-primary-fixed hover:text-primary transition-colors">document</button>
+      <button onclick="doSearch('restaurant')" class="shrink-0 px-space-md py-1.5 rounded-full bg-surface-container text-on-surface-variant font-label-md text-label-md hover:bg-primary-fixed hover:text-primary transition-colors">restaurant</button>
+      <button onclick="doSearch('hotel')" class="shrink-0 px-space-md py-1.5 rounded-full bg-surface-container text-on-surface-variant font-label-md text-label-md hover:bg-primary-fixed hover:text-primary transition-colors">hotel</button>
+    </div>
+
+    <p class="font-label-sm text-label-sm text-outline mb-space-sm hidden" id="s-label"></p>
+    <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-0.5" id="s-grid"></div>
+    <div class="hidden flex-col items-center py-20 text-center" id="s-empty">
+      <span class="material-symbols-outlined text-[48px] text-outline mb-space-sm">image_search</span>
+      <p class="font-headline-sm text-headline-sm text-on-surface mb-1">No results found</p>
+      <p class="font-body-sm text-body-sm text-on-surface-variant">Try "medicine", "Goa", "birthday", or "beach"</p>
+    </div>
+  </div>
+</div>
+
+<!-- ────────────────────────────────────────
+     VIEW: RESULTS
+──────────────────────────────────────────── -->
+<div class="view flex-col" id="v-results">
+  <!-- Clue chain breadcrumb -->
+  <div class="items-center gap-1.5 pt-space-md pb-space-xs overflow-x-auto font-label-sm text-label-sm text-on-surface-variant hidden" id="res-bc">
+    <div class="flex items-center gap-1.5" id="res-bc-inner"></div>
+  </div>
+
+  <!-- Results header -->
+  <div class="flex items-start gap-space-sm py-space-md border-b border-surface-container-high">
+    <button onclick="goBack()" class="w-9 h-9 flex items-center justify-center rounded-full hover:bg-surface-container text-on-surface-variant shrink-0 mt-0.5">
+      <span class="material-symbols-outlined text-[20px]">arrow_back</span>
+    </button>
+    <img alt="Clue" class="w-14 h-14 rounded-xl object-cover shadow-[0_2px_8px_rgba(0,0,0,0.12)] shrink-0" id="res-thumb"/>
+    <div class="min-w-0 flex-1">
+      <div class="flex items-center gap-space-sm flex-wrap mb-0.5">
+        <span class="font-label-sm text-label-sm uppercase tracking-widest text-outline">Results related to your clue</span>
+        <span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full font-semibold" id="res-chip"></span>
+      </div>
+      <p class="font-headline-sm text-headline-sm text-on-surface" id="res-mode-label"></p>
+      <p class="font-label-sm text-label-sm text-outline mt-0.5" id="res-count"></p>
+    </div>
+    <!-- AI spinner -->
+    <div class="hidden items-center gap-1.5 shrink-0 text-outline font-label-sm text-label-sm" id="ai-spin">
+      <div class="w-4 h-4 rounded-full border-2 border-primary border-t-transparent spin"></div>
+      <span>AI analyzing…</span>
+    </div>
+  </div>
+
+  <!-- Results grid -->
+  <div class="py-space-md">
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-0.5" id="r-grid"></div>
+    <div class="hidden flex-col items-center py-20 text-center" id="r-empty">
+      <span class="material-symbols-outlined text-[48px] text-outline mb-space-sm">search_off</span>
+      <p class="font-headline-sm text-headline-sm text-on-surface mb-1">We couldn't find a strong match</p>
+      <p class="font-body-sm text-body-sm text-on-surface-variant mb-space-lg">Try another clue photo or a different approach</p>
+      <div class="flex gap-space-sm">
+        <button onclick="goBack()" class="h-9 px-space-md rounded-full bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-md text-label-md transition-colors">Try another clue</button>
+        <button onclick="nav('search')" class="h-9 px-space-md rounded-full bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md shadow-[0_2px_8px_rgba(37,99,235,0.25)] transition-all">Search again</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ────────────────────────────────────────
+     VIEW: MY PHOTOS IMPORT
+──────────────────────────────────────────── -->
+<div class="view flex-col" id="v-import">
+  <div class="py-space-md flex items-center gap-space-sm mb-space-md">
+    <button onclick="goBack()" class="w-9 h-9 flex items-center justify-center rounded-full hover:bg-surface-container text-on-surface-variant">
+      <span class="material-symbols-outlined text-[20px]">arrow_back</span>
+    </button>
+    <div>
+      <h2 class="font-headline-md text-headline-md text-on-surface">My Photos</h2>
+      <p class="font-label-sm text-label-sm text-outline">Test Memory Clue with your own memories</p>
+    </div>
+  </div>
+
+  <div class="max-w-xl">
+    <!-- Privacy notice -->
+    <div class="flex items-start gap-space-sm p-space-sm rounded-xl bg-surface-container-low border border-surface-container-high mb-space-md">
+      <span class="material-symbols-outlined text-[20px] shrink-0 mt-0.5" style="color:#1e8e3e">lock</span>
+      <div>
+        <p class="font-label-lg text-label-lg text-on-surface mb-0.5">Your photos stay on this device</p>
+        <p class="font-body-sm text-body-sm text-on-surface-variant">Analyzed locally in your browser. Only text descriptions are sent to Google AI for "Let Photos find the best match." Images are never stored on our servers.</p>
+      </div>
+    </div>
+
+    <!-- Drop zone -->
+    <div class="border-2 border-dashed border-outline-variant rounded-2xl p-10 flex flex-col items-center text-center mb-space-md cursor-pointer hover:border-primary hover:bg-primary-fixed/20 transition-colors" id="drop-zone" onclick="document.getElementById('file-in').click()" ondragover="event.preventDefault();this.classList.add('border-primary','bg-primary-fixed/20')" ondragleave="this.classList.remove('border-primary','bg-primary-fixed/20')" ondrop="handleDrop(event)">
+      <span class="material-symbols-outlined text-[48px] text-outline mb-space-sm">add_photo_alternate</span>
+      <p class="font-headline-sm text-headline-sm text-on-surface mb-1">Add photos</p>
+      <p class="font-body-sm text-body-sm text-on-surface-variant mb-space-md">Drag &amp; drop, or click to browse</p>
+      <button class="flex items-center gap-1 h-9 px-space-md rounded-full bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md shadow-[0_2px_8px_rgba(37,99,235,0.25)] transition-all">
+        <span class="material-symbols-outlined text-[18px]">file_upload</span>
+        Select photos
+      </button>
+      <p class="font-label-sm text-label-sm text-outline mt-space-sm">JPEG · PNG · WEBP · Select multiple at once</p>
+    </div>
+    <input accept="image/*" class="hidden" id="file-in" multiple type="file" onchange="handleFiles(this.files)"/>
+
+    <!-- Selected count bar -->
+    <div class="hidden items-center justify-between p-space-sm rounded-xl bg-surface-container-low border border-surface-container-high mb-space-sm" id="sel-bar">
+      <div class="flex items-center gap-space-sm">
+        <span class="material-symbols-outlined text-[20px] text-primary">photo</span>
+        <span class="font-label-lg text-label-lg text-on-surface" id="sel-label">0 photos selected</span>
+      </div>
+      <button onclick="startProcessing()" class="flex items-center gap-1 h-9 px-space-md rounded-full bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md shadow-[0_2px_8px_rgba(37,99,235,0.25)] transition-all">
+        Analyze photos →
+      </button>
+    </div>
+
+    <!-- Clear bar (returning user) -->
+    <div class="hidden items-center justify-between p-space-sm rounded-xl bg-surface-container font-label-sm text-label-sm" id="clear-bar">
+      <span class="text-on-surface-variant">Photos from previous session available</span>
+      <button onclick="clearPhotos()" class="text-error font-semibold hover:underline ml-space-sm">Clear photos</button>
+    </div>
+  </div>
+</div>
+
+<!-- ────────────────────────────────────────
+     VIEW: PROCESSING
+──────────────────────────────────────────── -->
+<div class="view flex-col items-center justify-center min-h-[calc(100vh-8rem)]" id="v-proc">
+  <div class="max-w-sm w-full">
+    <div class="text-center mb-space-lg">
+      <div class="w-16 h-16 rounded-2xl bg-primary flex items-center justify-center mx-auto mb-space-md shadow-[0_4px_16px_rgba(0,74,198,0.35)]">
+        <span class="material-symbols-outlined text-on-primary text-[28px]">auto_awesome</span>
+      </div>
+      <h2 class="font-headline-md text-headline-md text-on-surface mb-1">Preparing your photos</h2>
+      <p class="font-body-sm text-body-sm text-on-surface-variant">Analyzing your collection for Memory Clue…</p>
+    </div>
+    <!-- Progress bar -->
+    <div class="w-full h-1.5 bg-surface-container-highest rounded-full overflow-hidden mb-space-lg">
+      <div class="h-full bg-primary rounded-full transition-all duration-700" id="proc-bar" style="width:0%"></div>
+    </div>
+    <!-- Steps -->
+    <div class="flex flex-col gap-space-sm mb-space-lg">
+      <div class="proc-step flex items-center gap-space-sm" id="ps1">
+        <span class="material-symbols-outlined text-[20px] proc-ico">check_circle</span>
+        <span class="font-body-sm text-body-sm text-on-surface">Photos imported</span>
+        <span class="font-label-sm text-label-sm text-outline ml-auto" id="ps1-n"></span>
+      </div>
+      <div class="proc-step flex items-center gap-space-sm" id="ps2">
+        <span class="material-symbols-outlined text-[20px] proc-ico">check_circle</span>
+        <span class="font-body-sm text-body-sm text-on-surface">Dates &amp; locations detected</span>
+      </div>
+      <div class="proc-step flex items-center gap-space-sm" id="ps3">
+        <span class="material-symbols-outlined text-[20px] proc-ico">check_circle</span>
+        <span class="font-body-sm text-body-sm text-on-surface">Visual relationships prepared</span>
+      </div>
+      <div class="proc-step flex items-center gap-space-sm" id="ps4">
+        <span class="material-symbols-outlined text-[20px] proc-ico">check_circle</span>
+        <span class="font-body-sm text-body-sm text-on-surface">Search index created</span>
+      </div>
+    </div>
+    <div class="flex items-center justify-center gap-1.5" id="proc-dots">
+      <div class="w-2 h-2 rounded-full bg-primary pdot"></div>
+      <div class="w-2 h-2 rounded-full bg-primary pdot"></div>
+      <div class="w-2 h-2 rounded-full bg-primary pdot"></div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /flex flex-col w-full -->
+</main>
+</div>
+
+<!-- ══════════════════════════════════════════
+     BOTTOM NAV (mobile — exact stitch)
+══════════════════════════════════════════ -->
+<nav class="fixed bottom-0 left-0 right-0 h-16 bg-surface-container-lowest/90 backdrop-blur-xl shadow-[0_-1px_8px_rgba(0,0,0,0.04)] z-40 flex items-center justify-around px-space-xs lg:hidden">
+  <button onclick="nav('grid')" class="flex flex-col items-center justify-center gap-0.5 text-on-surface-variant hover:text-on-surface">
+    <span class="material-symbols-outlined text-[22px]">photo_library</span>
+    <span class="font-label-sm text-label-sm">Photos</span>
+  </button>
+  <button onclick="nav('search')" class="flex flex-col items-center justify-center gap-0.5 text-on-surface-variant hover:text-on-surface">
+    <span class="material-symbols-outlined text-[22px]">search</span>
+    <span class="font-label-sm text-label-sm">Search</span>
+  </button>
+  <button class="flex flex-col items-center justify-center gap-0.5 text-primary font-bold">
+    <span class="material-symbols-outlined text-[22px]">tips_and_updates</span>
+    <span class="font-label-sm text-label-sm">Clue</span>
+  </button>
+  <button onclick="nav('import')" class="flex flex-col items-center justify-center gap-0.5 text-on-surface-variant hover:text-on-surface">
+    <span class="material-symbols-outlined text-[22px]">add_photo_alternate</span>
+    <span class="font-label-sm text-label-sm">My Photos</span>
+  </button>
+  <button onclick="nav('grid')" class="flex flex-col items-center justify-center gap-0.5 text-on-surface-variant hover:text-on-surface">
+    <span class="material-symbols-outlined text-[22px]">collections_bookmark</span>
+    <span class="font-label-sm text-label-sm">Library</span>
+  </button>
+</nav>
+
+<!-- ══════════════════════════════════════════
+     JAVASCRIPT
+══════════════════════════════════════════ -->
+<script>
+// ── DEMO DATA ─────────────────────────────────────────────────────────────
+const PHOTOS = [
+  {id:'m23a',url:'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=400',label:'Amoxicillin 500mg pack',objects:['medicine','pill','package'],labels:['healthcare','pharmacy','indoor'],event:'med-2023',year:2023,location:'Mumbai',desc:'Medicine packaging 2023'},
+  {id:'m23b',url:'https://images.unsplash.com/photo-1471864190281-a93a3070b6de?w=400',label:'Vitamin D capsules',objects:['medicine','capsule','bottle'],labels:['healthcare','pharmacy','supplement'],event:'med-2023',year:2023,location:'Mumbai',desc:'Vitamin capsules 2023'},
+  {id:'m23c',url:'https://images.unsplash.com/photo-1563213126-a4273aed2016?w=400',label:'Prescription slip',objects:['document','paper','medicine'],labels:['healthcare','text','prescription'],event:'med-2023',year:2023,location:'Mumbai',desc:'Prescription 2023',ocr:'Dr. Sharma Prescription 2023'},
+  {id:'m25a',url:'https://images.unsplash.com/photo-1607619056574-7b8d3ee536b2?w=400',label:'Azithromycin strip 2025',objects:['medicine','tablet','strip'],labels:['healthcare','pharmacy','indoor'],event:'med-2025',year:2025,location:'Mumbai',desc:'Antibiotic strip 2025'},
+  {id:'m25b',url:'https://images.unsplash.com/photo-1576671081837-49000212a370?w=400',label:'Cough syrup bottle 2025',objects:['medicine','bottle','syrup'],labels:['healthcare','pharmacy','liquid'],event:'med-2025',year:2025,location:'Mumbai',desc:'Cough syrup 2025'},
+  {id:'m25c',url:'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=400',label:'Pill organizer 2025',objects:['medicine','pill','organizer'],labels:['healthcare','pharmacy','daily'],event:'med-2025',year:2025,location:'Mumbai',desc:'Pill organizer 2025'},
+  {id:'goa-r',url:'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=400',label:'Goa beach shack dinner',objects:['restaurant','food','table'],labels:['travel','goa','outdoor','seafood'],event:'goa-2024',trip:'goa-2024',year:2024,location:'Goa',desc:'Seafood dinner beach shack Goa March 2024',lat:15.49,lng:73.82},
+  {id:'goa-b',url:'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400',label:'Palolem beach sunset',objects:['beach','ocean','sunset'],labels:['travel','goa','outdoor','nature'],event:'goa-2024',trip:'goa-2024',year:2024,location:'Goa',desc:'Palolem beach sunset Goa March 2024',lat:15.01,lng:74.02},
+  {id:'goa-h',url:'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400',label:'Hotel room Goa',objects:['hotel','room','bed'],labels:['travel','goa','indoor','accommodation'],event:'goa-2024',trip:'goa-2024',year:2024,location:'Goa',desc:'Hotel room Goa trip March 2024',lat:15.30,lng:73.91},
+  {id:'goa-m',url:'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400',label:'Anjuna flea market',objects:['market','stall','people'],labels:['travel','goa','outdoor','shopping'],event:'goa-2024',trip:'goa-2024',year:2024,location:'Goa',desc:'Anjuna flea market Goa',lat:15.57,lng:73.74},
+  {id:'goa-bt',url:'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=400',label:'Backwater boat ride',objects:['boat','water','river'],labels:['travel','goa','outdoor','water'],event:'goa-2024',trip:'goa-2024',year:2024,location:'Goa',desc:'River boat Goa trip',lat:15.50,lng:73.80},
+  {id:'bd-ck',url:'https://images.unsplash.com/photo-1558636508-e0969431bb0e?w=400',label:'Birthday cake cutting',objects:['cake','candles','people'],labels:['celebration','birthday','indoor','food'],event:'bday-2024',year:2024,location:'Pune',people:['Rahul','Maya'],desc:'Rahul birthday cake Pune'},
+  {id:'bd-gr',url:'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=400',label:'Birthday group photo',objects:['people','table','decoration'],labels:['celebration','birthday','indoor','friends'],event:'bday-2024',year:2024,location:'Pune',people:['Rahul','Maya','Priya'],desc:'Birthday group photo Pune'},
+  {id:'bd-ou',url:'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=400',label:'Birthday outdoor fun',objects:['people','outdoor','games'],labels:['celebration','outdoor','friends','fun'],event:'bday-2024',year:2024,location:'Pune',people:['Rahul','Maya'],desc:'Birthday outdoor Pune'},
+  {id:'dc22',url:'https://images.unsplash.com/photo-1568667256549-094345857637?w=400',label:'Document scan 2022',objects:['document','paper','text'],labels:['document','indoor','office','scan'],event:'doc-2022',year:2022,location:'Delhi',desc:'Document scan 2022',ocr:'Agreement signed June 2022'},
+  {id:'dc24',url:'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=400',label:'Document scan 2024',objects:['document','paper','text'],labels:['document','indoor','office','scan'],event:'doc-2024',year:2024,location:'Delhi',desc:'Document 2024',ocr:'Contract signed September 2024'},
+  {id:'nat1',url:'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=400',label:'Mountain sunrise',objects:['mountain','sky','nature'],labels:['landscape','nature','outdoor','morning'],event:'trip-hills',year:2023,location:'Coorg',desc:'Mountain sunrise Coorg'},
+  {id:'nat2',url:'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400',label:'Himalayan range',objects:['mountain','snow','sky'],labels:['landscape','nature','outdoor'],event:'trip-hills',year:2023,location:'Himachal',desc:'Himalayan range'},
+  {id:'fd1',url:'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400',label:'Healthy bowl',objects:['food','bowl','vegetables'],labels:['food','indoor','healthy'],event:'daily',year:2024,location:'Bangalore',desc:'Healthy food bowl'},
+  {id:'fd2',url:'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400',label:'Pizza dinner',objects:['food','pizza','plate'],labels:['food','indoor','restaurant'],event:'daily',year:2024,location:'Bangalore',desc:'Pizza Bangalore'},
+  {id:'car1',url:'https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=400',label:'Road trip car',objects:['car','road','vehicle'],labels:['travel','outdoor','vehicle'],event:'trip-hills',year:2023,location:'Highway',desc:'Road trip highway'},
+  {id:'kid1',url:'https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=400',label:'Children playing',objects:['children','play','outdoor'],labels:['family','outdoor','kids'],event:'family-2023',year:2023,location:'Park',desc:'Children playing park'},
+  {id:'wed1',url:'https://images.unsplash.com/photo-1519741497674-611481863552?w=400',label:'Wedding ceremony',objects:['people','wedding','flowers'],labels:['wedding','celebration','outdoor'],event:'wedding-2023',year:2023,location:'Jaipur',people:['Ananya','Vikram'],desc:'Wedding Jaipur'},
+  {id:'off1',url:'https://images.unsplash.com/photo-1497366216548-37526070297c?w=400',label:'Office workspace',objects:['desk','computer','office'],labels:['work','indoor','office'],event:'daily',year:2024,location:'Bangalore',desc:'Office workspace'},
+  {id:'cat1',url:'https://images.unsplash.com/photo-1518791841217-8f162f1912da?w=400',label:'Street cat',objects:['cat','animal','outdoor'],labels:['animal','street','cute'],event:'daily',year:2024,location:'Bangalore',desc:'Street cat Bangalore'},
+];
+
+// ── STATE ──────────────────────────────────────────────────────────────────
+const S = {view:'v-grid', prev:'v-grid', mode:'demo', clueId:null, chain:[], userPhotos:[], selFiles:[]};
+
+// ── NAVIGATION ─────────────────────────────────────────────────────────────
+function nav(id){
+  const map={grid:'v-grid',search:'v-search',results:'v-results',import:'v-import',proc:'v-proc'};
+  const vId = map[id]||id;
+  S.prev = S.view; S.view = vId;
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.getElementById(vId)?.classList.add('active');
+  window.scrollTo(0,0);
+}
+function goBack(){nav(S.prev);}
+function toggleSidebar(){
+  const s=document.getElementById('sidebar');
+  s.classList.toggle('hidden'); s.classList.toggle('lg:flex');
+}
+
+// ── DEMO ───────────────────────────────────────────────────────────────────
+function startDemo(){
+  S.mode='demo'; S.chain=[];
+  renderGrid(PHOTOS, 'main-grid');
+  document.getElementById('grid-title').textContent='Demo Photos';
+  document.getElementById('grid-sub').textContent=`${PHOTOS.length} photos · Tap ⋮ on any photo to use it as a clue`;
+  document.getElementById('mode-cards').style.display='none';
+  document.getElementById('photo-count').textContent=PHOTOS.length;
+  updateBreadcrumb();
+  toast('Demo Photos loaded! Hover any photo and tap ⋮','collections');
+}
+
+// ── PHOTO CARD ─────────────────────────────────────────────────────────────
+function card(p, big=false, showReason=false){
+  const h = big ? 'h-40 sm:h-48' : 'h-24 sm:h-28';
+  const chip = showReason && p._reason
+    ? `<div class="reason-chip"><span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full font-label-sm text-label-sm text-white shadow-lg" style="background:${chipCol(p._rtype)}">${p._reason}</span></div>`:'';
+  return `
+<div class="photo-card card-in ${h}" data-id="${p.id}">
+  <div class="sel-badge w-5 h-5 rounded-full bg-primary items-center justify-center">
+    <span class="material-symbols-outlined text-on-primary text-[13px]">check</span>
+  </div>
+  <img src="${p.url}" alt="${p.label}" loading="lazy"/>
+  <div class="card-overlay"></div>
+  ${chip}
+  <button class="card-menu w-7 h-7 rounded-full bg-inverse-surface/70 backdrop-blur-sm text-inverse-on-surface flex items-center justify-center hover:bg-inverse-surface transition-colors" onclick="event.stopPropagation();openMenu('${p.id}',this.closest('.photo-card'))">
+    <span class="material-symbols-outlined text-[16px]">more_vert</span>
+  </button>
+  <!-- Context menu — exact stitch style -->
+  <div class="card-ctx" id="ctx-${p.id}">
+    <div class="w-72 rounded-2xl bg-surface-container-lowest/95 backdrop-blur-xl shadow-2xl p-1.5 text-on-surface">
+      <div class="flex flex-col gap-0.5">
+        <button class="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-surface-container text-on-surface-variant hover:text-on-surface transition-colors text-left" onclick="event.stopPropagation()">
+          <span class="material-symbols-outlined text-[19px] text-outline">slideshow</span>
+          <span class="font-label-lg text-label-lg">Slideshow</span>
+        </button>
+        <button class="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-surface-container text-on-surface-variant hover:text-on-surface transition-colors text-left" onclick="event.stopPropagation()">
+          <span class="material-symbols-outlined text-[19px] text-outline">download</span>
+          <span class="font-label-lg text-label-lg">Download original</span>
+        </button>
+        <button class="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-surface-container text-on-surface-variant hover:text-on-surface transition-colors text-left" onclick="event.stopPropagation()">
+          <span class="material-symbols-outlined text-[19px] text-outline">add_photo_alternate</span>
+          <span class="font-label-lg text-label-lg">Add to album</span>
+        </button>
+        <button class="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-surface-container text-on-surface-variant hover:text-on-surface transition-colors text-left" onclick="event.stopPropagation()">
+          <span class="material-symbols-outlined text-[19px] text-outline">archive</span>
+          <span class="font-label-lg text-label-lg">Archive</span>
+        </button>
+        <div class="my-1 h-px bg-surface-container-highest"></div>
+        <!-- ★ MEMORY CLUE ENTRY POINT ★ -->
+        <button class="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-primary-fixed text-primary transition-colors text-left" onclick="event.stopPropagation();openSheet('${p.id}')">
+          <span class="material-symbols-outlined text-[19px]">tips_and_updates</span>
+          <span class="font-label-lg text-label-lg font-semibold">Use this photo as a clue</span>
+        </button>
+        <div class="my-1 h-px bg-surface-container-highest"></div>
+        <button class="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-error-container text-error transition-colors text-left" onclick="event.stopPropagation()">
+          <span class="material-symbols-outlined text-[19px]">delete</span>
+          <span class="font-label-lg text-label-lg font-semibold">Move to trash</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>`;
+}
+
+function chipCol(t){
+  return {visual:'#1a73e8',temporal:'#e37400',location:'#1e8e3e',people:'#7c4dff',event:'#00796b',text:'#c2185b'}[t]||'#737686';
+}
+
+function renderGrid(photos, gridId, big=false, reason=false){
+  const g=document.getElementById(gridId);
+  if(g) g.innerHTML = photos.map(p=>card(p,big,reason)).join('');
+}
+
+// ── CARD MENUS ─────────────────────────────────────────────────────────────
+function openMenu(id, cardEl){
+  closeMenus();
+  const m=document.getElementById('ctx-'+id);
+  if(m){m.classList.add('open');}
+  setTimeout(()=>document.addEventListener('click',closeMenus,{once:true}),0);
+}
+function closeMenus(){document.querySelectorAll('.card-ctx').forEach(m=>m.classList.remove('open'));}
+
+// ── CLUE SHEET ─────────────────────────────────────────────────────────────
+function openSheet(id){
+  closeMenus();
+  S.clueId=id;
+  const p=getPhoto(id);
+  document.getElementById('sheet-thumb').src=p?p.url:'';
+  document.getElementById('sheet-backdrop').classList.add('open');
+}
+function closeSheet(){document.getElementById('sheet-backdrop').classList.remove('open');}
+
+document.getElementById('btn-similar').onclick=()=>retrieve('similar');
+document.getElementById('btn-memory').onclick=()=>retrieve('memory');
+document.getElementById('btn-best').onclick=()=>retrieve('best');
+
+// ── RETRIEVAL ──────────────────────────────────────────────────────────────
+function getPhoto(id){return [...PHOTOS,...S.userPhotos].find(p=>p.id===id);}
+function allPhotos(){return S.mode==='demo'?PHOTOS:S.userPhotos;}
+
+function retrieve(mode){
+  closeSheet();
+  const clue=getPhoto(S.clueId); if(!clue) return;
+  const labels={similar:'Search similar to this photo',memory:'Search around this memory',best:'Let Photos find the best match'};
+  S.chain.push({id:S.clueId,mode,label:labels[mode]});
+
+  nav('results');
+  setupResHeader(clue,mode);
+  updateResBreadcrumb();
+
+  const candidates=allPhotos().filter(p=>p.id!==S.clueId);
+
+  if(mode==='best'){
+    document.getElementById('ai-spin').classList.remove('hidden');
+    document.getElementById('ai-spin').classList.add('flex');
+    setTimeout(()=>{
+      document.getElementById('ai-spin').classList.add('hidden');
+      document.getElementById('ai-spin').classList.remove('flex');
+      showResults(scoreBest(clue,candidates));
+    },2200);
+  } else {
+    const res = mode==='similar'?scoreSimilar(clue,candidates):scoreMemory(clue,candidates);
+    showResults(res);
+  }
+  setTimeout(showFb,9000);
+}
+
+function setupResHeader(clue,mode){
+  document.getElementById('res-thumb').src=clue.url;
+  const cfg={
+    similar:{label:'Search similar to this photo',chip:'Visual',bg:'#e8f0fe',fg:'#1a73e8'},
+    memory:{label:'Search around this memory',chip:'Memory',bg:'#e6f4ea',fg:'#1e8e3e'},
+    best:{label:'Let Photos find the best match',chip:'AI Best',bg:'#f3e8fd',fg:'#7c4dff'},
+  }[mode];
+  document.getElementById('res-mode-label').textContent=cfg.label;
+  const ch=document.getElementById('res-chip');
+  ch.textContent=cfg.chip;
+  ch.style.cssText=`background:${cfg.bg};color:${cfg.fg};`;
+}
+
+function showResults(res){
+  const rg=document.getElementById('r-grid'), re=document.getElementById('r-empty');
+  const rc=document.getElementById('res-count');
+  if(!res.length){
+    rg.innerHTML=''; re.classList.remove('hidden'); re.classList.add('flex');
+    rc.textContent='No strong matches found';
+  } else {
+    re.classList.add('hidden'); re.classList.remove('flex');
+    rc.textContent=`${res.length} related photos found`;
+    renderGrid(res,'r-grid',true,true);
+  }
+}
+
+// ── SCORING ────────────────────────────────────────────────────────────────
+function jaccard(a,b){
+  if(!a?.length||!b?.length) return 0;
+  const A=new Set(a.map(x=>x.toLowerCase())), B=new Set(b.map(x=>x.toLowerCase()));
+  const i=[...A].filter(x=>B.has(x)).length;
+  return i/(A.size+B.size-i);
+}
+function visualSim(a,b){
+  if(a.event===b.event) return 0.72+Math.random()*0.18;
+  return Math.min(jaccard(a.labels,b.labels)*1.4+Math.random()*0.08,1);
+}
+function eventScore(a,b){
+  if(a.event&&a.event===b.event) return 1.0;
+  if(a.trip&&a.trip===b.trip) return 0.6;
+  return 0;
+}
+function tempScore(a,b){
+  if(!a.year||!b.year) return 0;
+  return Math.exp(-Math.pow(a.year-b.year,2)/2);
+}
+function locScore(a,b){
+  if(a.location&&b.location&&a.location===b.location) return 1;
+  if(a.lat&&b.lat){const d=haversine(a.lat,a.lng,b.lat,b.lng);return Math.exp(-d/10);}
+  return 0;
+}
+function haversine(la1,lo1,la2,lo2){
+  const R=6371,dL=(la2-la1)*Math.PI/180,dO=(lo2-lo1)*Math.PI/180;
+  const x=Math.sin(dL/2)**2+Math.cos(la1*Math.PI/180)*Math.cos(la2*Math.PI/180)*Math.sin(dO/2)**2;
+  return R*2*Math.atan2(Math.sqrt(x),Math.sqrt(1-x));
+}
+function ocrSim(a,b){
+  if(!a?.ocr||!b?.ocr) return 0;
+  const ta=a.ocr.toLowerCase().split(/\s+/), tb=new Set(b.ocr.toLowerCase().split(/\s+/));
+  return ta.filter(t=>tb.has(t)).length/Math.max(ta.length,1);
+}
+
+function scoreSimilar(clue,cands){
+  return cands.map(p=>{
+    const vs=visualSim(clue,p),os=jaccard(clue.objects,p.objects),ls=jaccard(clue.labels,p.labels),oc=ocrSim(clue,p);
+    const score=vs*.50+os*.25+ls*.20+oc*.05;
+    const r=topReason({vs,os,ls,oc},clue,p,'similar');
+    return{...p,_score:score,_reason:r.text,_rtype:r.type};
+  }).sort((a,b)=>b._score-a._score).slice(0,12);
+}
+
+function scoreMemory(clue,cands){
+  return cands.map(p=>{
+    const ev=eventScore(clue,p),tp=tempScore(clue,p),lc=locScore(clue,p),pp=jaccard(clue.people,p.people),vs=visualSim(clue,p);
+    const score=ev*.30+tp*.25+lc*.20+pp*.15+vs*.10;
+    const r=topReason({ev,tp,lc,pp,vs},clue,p,'memory');
+    return{...p,_score:score,_reason:r.text,_rtype:r.type};
+  }).sort((a,b)=>b._score-a._score).slice(0,12);
+}
+
+function scoreBest(clue,cands){
+  const ctx=(clue.event||clue.lat);
+  return cands.map(p=>{
+    const vs=visualSim(clue,p),os=jaccard(clue.objects,p.objects),ls=jaccard(clue.labels,p.labels),
+          ev=eventScore(clue,p),tp=tempScore(clue,p),lc=locScore(clue,p),pp=jaccard(clue.people,p.people),oc=ocrSim(clue,p);
+    const score=ctx
+      ? ev*.30+tp*.20+lc*.20+pp*.15+vs*.10+ls*.05
+      : vs*.45+os*.30+ls*.20+oc*.05;
+    const r=topReason(ctx?{ev,tp,lc,pp,vs}:{vs,os,ls,oc},clue,p,'best');
+    return{...p,_score:score,_reason:r.text,_rtype:r.type};
+  }).sort((a,b)=>b._score-a._score).slice(0,12);
+}
+
+function topReason(sigs,clue,cand,mode){
+  const [top,val]=Object.entries(sigs).sort((a,b)=>b[1]-a[1])[0];
+  if(val<0.12) return{text:'Possible match',type:'visual'};
+  const map={
+    vs:{text:cand.event===clue.event?'Similar appearance':`Similar ${(cand.objects||['photo'])[0]}`,type:'visual'},
+    os:{text:`Similar ${(cand.objects||['object'])[0]}`,type:'visual'},
+    ls:{text:'Similar scene',type:'visual'},
+    oc:{text:'Similar text',type:'text'},
+    ev:{text:cand.trip?`Same ${cand.location||'trip'}`:cand.event===clue.event?'Same event':'Related event',type:'event'},
+    tp:{text:`Same year · ${cand.year}`,type:'temporal'},
+    lc:{text:`${cand.location||'Same location'}`,type:'location'},
+    pp:{text:'Same people',type:'people'},
+  };
+  return map[top]||{text:'Strong match',type:'visual'};
+}
+
+// ── BREADCRUMB ─────────────────────────────────────────────────────────────
+function updateBreadcrumb(){
+  const bc=document.getElementById('breadcrumb'), bcc=document.getElementById('bc-content');
+  if(!S.chain.length){bc.classList.remove('on');return;}
+  bc.classList.add('on');
+  const steps=['<span class="text-on-surface-variant">Search</span>',...S.chain.map(s=>{
+    const p=getPhoto(s.id);
+    return `<img src="${p?.url||''}" class="w-5 h-5 rounded object-cover border border-primary/30" alt="clue"/> <span class="text-on-surface">${s.label}</span>`;
+  })];
+  bcc.innerHTML=steps.map((s,i)=>`${s}${i<steps.length-1?'<span class="material-symbols-outlined text-[14px]">chevron_right</span>':''}`).join('');
+}
+
+function updateResBreadcrumb(){
+  const rb=document.getElementById('res-bc'), ri=document.getElementById('res-bc-inner');
+  if(S.chain.length<=1){rb.classList.add('hidden');return;}
+  rb.classList.remove('hidden'); rb.classList.add('flex');
+  const steps=['<span>Search</span>',...S.chain.map(s=>{
+    const p=getPhoto(s.id);
+    return `<img src="${p?.url||''}" class="w-5 h-5 rounded object-cover border border-primary/30" alt="clue"/> <span>${s.label}</span>`;
+  })];
+  ri.innerHTML=steps.map((s,i)=>`${s}${i<steps.length-1?'<span class="material-symbols-outlined text-[14px]">chevron_right</span>':''}`).join('');
+}
+
+// ── SEARCH ─────────────────────────────────────────────────────────────────
+function doSearch(q){
+  document.getElementById('s-input').value=q;
+  nav('search');
+  const photos=allPhotos();
+  const lq=q.toLowerCase().trim();
+  if(!lq){renderGrid(photos,'s-grid');return;}
+  const res=photos.filter(p=>[p.label,p.desc,p.location,p.event,...(p.objects||[]),...(p.labels||[]),p.ocr||''].join(' ').toLowerCase().includes(lq));
+  const sg=document.getElementById('s-grid'), se=document.getElementById('s-empty'), sl=document.getElementById('s-label');
+  if(!res.length){sg.innerHTML='';se.classList.remove('hidden');se.classList.add('flex');sl.classList.add('hidden');}
+  else{se.classList.add('hidden');se.classList.remove('flex');sl.textContent=`${res.length} result${res.length>1?'s':''} for "${q}"`;sl.classList.remove('hidden');renderGrid(res,'s-grid');}
+}
+function liveSearch(v){if(v.length>=2)doSearch(v);}
+function clearSearch(){document.getElementById('s-input').value='';document.getElementById('s-grid').innerHTML='';document.getElementById('s-label').classList.add('hidden');document.getElementById('s-empty').classList.add('hidden');document.getElementById('s-empty').classList.remove('flex');}
+
+// ── FEEDBACK ───────────────────────────────────────────────────────────────
+function showFb(){document.getElementById('feedback-wrap').classList.add('open');}
+function closeFb(){
+  document.getElementById('feedback-wrap').classList.remove('open');
+  ['fq1','fq2','fq3'].forEach(id=>{document.getElementById(id).classList.remove('hidden');});
+  document.getElementById('fq2').classList.add('hidden');
+  document.getElementById('fq3').classList.add('hidden');
+}
+function fbYes(){document.getElementById('fq1').classList.add('hidden');document.getElementById('fq2').classList.remove('hidden');}
+function fbNotYet(){document.getElementById('fq1').classList.add('hidden');document.getElementById('fq3').classList.remove('hidden');}
+function toggleTag(b){b.classList.toggle('bg-primary/60');b.classList.toggle('text-on-primary');b.classList.toggle('bg-white/10');}
+
+// ── TOAST ──────────────────────────────────────────────────────────────────
+function toast(msg,icon='check_circle'){
+  const t=document.getElementById('toast');
+  document.getElementById('ti').textContent=icon;
+  document.getElementById('tt').textContent=msg;
+  t.classList.remove('opacity-0','translate-y-2');
+  t.classList.add('opacity-100','translate-y-0');
+  setTimeout(()=>{t.classList.add('opacity-0','translate-y-2');t.classList.remove('opacity-100','translate-y-0');},2500);
+}
+
+// ── MY PHOTOS ──────────────────────────────────────────────────────────────
+function handleFiles(files){
+  S.selFiles=Array.from(files);
+  updateSelBar();
+}
+function handleDrop(e){
+  e.preventDefault();
+  document.getElementById('drop-zone').classList.remove('border-primary','bg-primary-fixed/20');
+  S.selFiles=Array.from(e.dataTransfer.files).filter(f=>f.type.startsWith('image/'));
+  updateSelBar();
+}
+function updateSelBar(){
+  const bar=document.getElementById('sel-bar'), lbl=document.getElementById('sel-label');
+  if(S.selFiles.length){bar.classList.remove('hidden');bar.classList.add('flex');lbl.textContent=`${S.selFiles.length} photo${S.selFiles.length>1?'s':''} selected`;}
+  else{bar.classList.add('hidden');bar.classList.remove('flex');}
+}
+function startProcessing(){
+  if(!S.selFiles.length) return;
+  nav('proc');
+  document.getElementById('ps1-n').textContent=`${S.selFiles.length} photos`;
+  runProc();
+}
+function runProc(){
+  const steps=['ps1','ps2','ps3','ps4'],delays=[700,1600,2600,3700],progs=[25,50,75,100];
+  const bar=document.getElementById('proc-bar');
+  steps.forEach((id,i)=>setTimeout(()=>{document.getElementById(id).classList.add('done');bar.style.width=progs[i]+'%';},delays[i]));
+  setTimeout(()=>{
+    S.userPhotos=S.selFiles.map((f,i)=>({id:`u${i}-${Date.now()}`,url:URL.createObjectURL(f),label:f.name.replace(/\.[^.]+$/,''),objects:[],labels:[],event:null,year:new Date().getFullYear(),location:null,desc:f.name,_user:true}));
+    S.mode='user'; S.chain=[];
+    renderGrid(S.userPhotos,'main-grid');
+    document.getElementById('grid-title').textContent='My Photos';
+    document.getElementById('grid-sub').textContent=`${S.userPhotos.length} photos · Tap ⋮ on any photo to use it as a clue`;
+    document.getElementById('mode-cards').style.display='none';
+    document.getElementById('photo-count').textContent=S.userPhotos.length;
+    nav('grid');
+    toast(`${S.userPhotos.length} photos ready for Memory Clue!`,'check_circle');
+    steps.forEach(id=>document.getElementById(id).classList.remove('done'));
+    bar.style.width='0%';
+  },4500);
+}
+function clearPhotos(){
+  if(!confirm('Remove all imported photos from this session?')) return;
+  S.userPhotos.forEach(p=>{if(p.url?.startsWith('blob:'))URL.revokeObjectURL(p.url);});
+  S.userPhotos=[]; S.selFiles=[]; S.mode='demo';
+  toast('Your photos have been removed.','delete');
+  nav('import');
+}
+
+// ── KEYBOARD ───────────────────────────────────────────────────────────────
+window.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){closeMenus();closeSheet();closeFb();}
+  if(e.key==='/'&&document.activeElement.tagName!=='INPUT'){e.preventDefault();nav('search');setTimeout(()=>document.getElementById('s-input')?.focus(),80);}
+});
+document.getElementById('hdr-search').addEventListener('keydown',e=>{if(e.key==='Enter'){nav('search');doSearch(e.target.value);}});
+</script>
+</body>
+</html>

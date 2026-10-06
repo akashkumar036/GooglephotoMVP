@@ -1,0 +1,58 @@
+:root {
+  /* Core Google Photos Dark Theme Tokens */
+  --gp-bg: #202124;
+  --gp-surface: #303134;
+  --gp-surface-variant: #3c4043;
+  --gp-surface-hover: #35363a;
+  --gp-primary: #8ab4f8;
+  --gp-primary-hover: #aecbfa;
+  --gp-primary-container: rgba(138, 180, 248, 0.16);
+  --gp-on-primary: #202124;
+  --gp-on-surface: #e8eaed;
+  --gp-secondary-text: #9aa0a6;
+  --gp-outline: #5f6368;
+  --gp-outline-variant: #3c4043;
+
+  /* Surfaces & Sheets */
+  --gp-chip-bg: #3c4043;
+  --gp-chip-hover: #4a4d51;
+  --gp-sheet-bg: #292a2d;
+  --gp-header-bg: rgba(32, 33, 36, 0.95);
+  --gp-dialog-bg: #2d2f31;
+
+  /* Radii */
+  --gp-radius-sm: 4px;
+  --gp-radius-card: 8px;
+  --gp-radius-pill: 9999px;
+  --gp-radius-sheet: 16px;
+  --gp-radius-dialog: 24px;
+
+  /* Reason Chip Colors */
+  --gp-chip-visual: #8ab4f8;
+  --gp-chip-visual-bg: rgba(138, 180, 248, 0.15);
+  --gp-chip-temporal: #fdd663;
+  --gp-chip-temporal-bg: rgba(253, 214, 99, 0.15);
+  --gp-chip-location: #81c995;
+  --gp-chip-location-bg: rgba(129, 201, 149, 0.15);
+  --gp-chip-people: #c58af9;
+  --gp-chip-people-bg: rgba(197, 138, 249, 0.15);
+  --gp-chip-event: #78d9ec;
+  --gp-chip-event-bg: rgba(120, 217, 236, 0.15);
+  --gp-chip-text: #ff8bcb;
+  --gp-chip-text-bg: rgba(255, 139, 203, 0.15);
+
+  /* Typography */
+  --font-body: 'Google Sans', Roboto, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'Roboto Mono', monospace;
+
+  /* Elevations / Shadows */
+  --gp-shadow-1: 0 1px 2px 0 rgba(0, 0, 0, 0.3), 0 1px 3px 1px rgba(0, 0, 0, 0.15);
+  --gp-shadow-2: 0 1px 2px 0 rgba(0, 0, 0, 0.3), 0 2px 6px 2px rgba(0, 0, 0, 0.15);
+  --gp-shadow-3: 0 4px 8px 3px rgba(0, 0, 0, 0.15), 0 1px 3px 0 rgba(0, 0, 0, 0.3);
+  --gp-shadow-sheet: 0 -4px 16px 2px rgba(0, 0, 0, 0.4);
+
+  /* Transitions */
+  --gp-transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --gp-transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --gp-transition-sheet: 350ms cubic-bezier(0.32, 0.72, 0, 1);
+}

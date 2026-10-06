@@ -1,0 +1,205 @@
+/* ──────────────────────────────────────
+   ImportScreen — Upload & drop zone for My Photos
+   Phase 11.1: Import Screen
+   ────────────────────────────────────── */
+
+.import-screen {
+  max-width: 680px;
+  margin: 32px auto;
+  padding: 0 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  animation: importFadeIn 200ms ease;
+  box-sizing: border-box;
+}
+
+@keyframes importFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.import-screen__dropzone {
+  position: relative;
+  border: 2px dashed rgba(255, 255, 255, 0.2);
+  border-radius: var(--gp-radius-dialog, 24px);
+  padding: 48px 24px;
+  text-align: center;
+  background-color: var(--gp-surface, #303134);
+  cursor: pointer;
+  transition:
+    border-color var(--gp-transition-fast, 150ms ease),
+    background-color var(--gp-transition-fast, 150ms ease),
+    transform var(--gp-transition-fast, 150ms ease);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.import-screen__dropzone:hover,
+.import-screen__dropzone--dragging {
+  border-color: var(--gp-primary, #8ab4f8);
+  background-color: var(--gp-surface-hover, #35363a);
+  transform: scale(1.008);
+}
+
+.import-screen__icon-wrap {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--gp-primary-container, rgba(138, 180, 248, 0.16));
+  color: var(--gp-primary, #8ab4f8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.import-screen__icon {
+  font-size: 36px;
+}
+
+.import-screen__title {
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: var(--gp-on-surface, #e8eaed);
+  margin: 0;
+}
+
+.import-screen__prompt {
+  font-size: 1.05rem;
+  color: var(--gp-primary, #8ab4f8);
+  font-weight: 500;
+  margin: 0;
+}
+
+.import-screen__desc {
+  font-size: 0.9rem;
+  color: var(--gp-secondary-text, #9aa0a6);
+  margin: 0;
+  max-width: 440px;
+  line-height: 1.4;
+}
+
+.import-screen__actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.import-screen__add-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 22px;
+  background-color: var(--gp-primary, #8ab4f8);
+  color: var(--gp-on-primary, #202124);
+  border: none;
+  border-radius: var(--gp-radius-pill, 9999px);
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background-color var(--gp-transition-fast, 150ms ease),
+    transform var(--gp-transition-fast, 150ms ease);
+}
+
+.import-screen__add-btn:hover {
+  background-color: var(--gp-primary-hover, #aecbfa);
+  transform: translateY(-1px);
+}
+
+/* File selected summary bar */
+.import-screen__selected-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  background-color: var(--gp-surface, #303134);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  box-shadow: var(--gp-shadow-1);
+}
+
+.import-screen__selected-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--gp-on-surface, #e8eaed);
+  font-weight: 500;
+}
+
+.import-screen__selected-count {
+  font-size: 1rem;
+}
+
+.import-screen__continue-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 24px;
+  background-color: var(--gp-primary, #8ab4f8);
+  color: var(--gp-on-primary, #202124);
+  border: none;
+  border-radius: var(--gp-radius-pill, 9999px);
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color var(--gp-transition-fast, 150ms ease);
+}
+
+.import-screen__continue-btn:hover {
+  background-color: var(--gp-primary-hover, #aecbfa);
+}
+
+/* Privacy disclosure card (Task 11.1) */
+.import-screen__privacy-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  background-color: rgba(60, 64, 67, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 18px 20px;
+  color: var(--gp-secondary-text, #9aa0a6);
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.import-screen__privacy-icon {
+  font-size: 22px;
+  color: var(--gp-primary, #8ab4f8);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.import-screen__privacy-text {
+  margin: 0;
+}
+
+.import-screen__privacy-text strong {
+  display: block;
+  color: var(--gp-on-surface, #e8eaed);
+  font-size: 0.9rem;
+  margin-bottom: 2px;
+}
+
+/* Error messages list */
+.import-screen__errors {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background-color: rgba(234, 67, 53, 0.12);
+  border: 1px solid rgba(234, 67, 53, 0.3);
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-size: 0.825rem;
+  color: #f28b82;
+}

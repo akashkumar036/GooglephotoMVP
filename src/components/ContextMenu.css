@@ -1,0 +1,76 @@
+/* ──────────────────────────────────────
+   ContextMenu
+   ────────────────────────────────────── */
+
+.gp-context-menu {
+  position: absolute;
+  z-index: 1000;
+  width: 240px;
+  background-color: var(--gp-surface);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--gp-radius-card);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+  padding: 8px 0;
+  display: flex;
+  flex-direction: column;
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  animation: context-menu-fade-in 0.15s cubic-bezier(0.2, 0, 0, 1) forwards;
+  transform-origin: top left;
+}
+
+@keyframes context-menu-fade-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.gp-context-menu__item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  width: 100%;
+  border: none;
+  background: none;
+  color: var(--gp-on-surface);
+  font-size: 14px;
+  font-family: var(--font-body);
+  text-align: left;
+  cursor: pointer;
+  transition: background-color var(--gp-transition-fast);
+}
+
+.gp-context-menu__item:hover {
+  background-color: var(--gp-surface-hover);
+}
+
+.gp-context-menu__item .material-symbols-outlined {
+  font-size: 20px;
+  color: var(--gp-secondary-text);
+}
+
+.gp-context-menu__divider {
+  height: 1px;
+  background-color: rgba(255, 255, 255, 0.08);
+  margin: 8px 0;
+}
+
+/* Accent entry point for Phase 4 */
+.gp-context-menu__item--accent {
+  color: var(--gp-primary);
+  font-weight: 500;
+}
+
+.gp-context-menu__item--accent .material-symbols-outlined {
+  color: var(--gp-primary);
+}
+
+.gp-context-menu__item--accent:hover {
+  background-color: var(--gp-primary-container);
+}

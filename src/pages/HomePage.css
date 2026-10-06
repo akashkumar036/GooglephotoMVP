@@ -1,0 +1,206 @@
+.home-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 48px 24px 80px;
+  width: 100%;
+}
+
+.home-hero {
+  text-align: center;
+  max-width: 680px;
+  margin-bottom: 48px;
+}
+
+.home-hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: var(--gp-radius-pill);
+  background-color: var(--gp-surface);
+  border: 1px solid rgba(138, 180, 248, 0.25);
+  color: var(--gp-primary);
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+
+.home-hero-badge .material-symbols-outlined {
+  font-size: 16px;
+}
+
+.home-hero-title {
+  font-size: 44px;
+  font-weight: 600;
+  letter-spacing: -0.8px;
+  color: var(--gp-on-surface);
+  margin-bottom: 16px;
+  line-height: 1.15;
+}
+
+.home-hero-subtitle {
+  font-size: 18px;
+  color: var(--gp-secondary-text);
+  line-height: 1.5;
+}
+
+.mode-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 24px;
+  width: 100%;
+  margin-bottom: 56px;
+}
+
+.mode-card {
+  position: relative;
+  background-color: var(--gp-surface);
+  border: 1px solid var(--gp-outline-variant);
+  border-radius: var(--gp-radius-sheet);
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+  transition: all var(--gp-transition-normal);
+  overflow: hidden;
+}
+
+.mode-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--gp-primary);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+  background-color: var(--gp-surface-hover);
+}
+
+.mode-card-badge {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: var(--gp-radius-pill);
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+}
+
+.demo-badge {
+  background: var(--gp-primary-container);
+  color: var(--gp-primary);
+  border: 1px solid rgba(138, 180, 248, 0.3);
+}
+
+.privacy-badge {
+  background: rgba(129, 201, 149, 0.15);
+  color: var(--gp-chip-location);
+  border: 1px solid rgba(129, 201, 149, 0.3);
+}
+
+.mode-card-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  background: var(--gp-primary-container);
+  color: var(--gp-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.user-icon {
+  background: rgba(129, 201, 149, 0.15);
+  color: var(--gp-chip-location);
+}
+
+.mode-card-icon .material-symbols-outlined {
+  font-size: 28px;
+}
+
+.mode-card-title {
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--gp-on-surface);
+  margin-bottom: 10px;
+}
+
+.mode-card-desc {
+  font-size: 14px;
+  color: var(--gp-secondary-text);
+  line-height: 1.5;
+  margin-bottom: 24px;
+  flex: 1;
+}
+
+.mode-card-features {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 28px;
+}
+
+.feature-pill {
+  font-size: 12px;
+  color: var(--gp-on-surface);
+  background-color: var(--gp-chip-bg);
+  padding: 4px 10px;
+  border-radius: var(--gp-radius-pill);
+  font-weight: 500;
+}
+
+.mode-card-cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--gp-primary);
+  padding-top: 16px;
+  border-top: 1px solid var(--gp-outline-variant);
+  transition: gap var(--gp-transition-fast);
+}
+
+.mode-card:hover .mode-card-cta .material-symbols-outlined {
+  transform: translateX(4px);
+  transition: transform var(--gp-transition-fast);
+}
+
+.home-info-strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+  width: 100%;
+  padding: 24px;
+  background-color: var(--gp-surface);
+  border-radius: var(--gp-radius-sheet);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.info-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.info-icon {
+  color: var(--gp-primary);
+  font-size: 24px;
+  margin-top: 2px;
+}
+
+.info-item strong {
+  font-size: 14px;
+  color: var(--gp-on-surface);
+  display: block;
+  margin-bottom: 2px;
+}
+
+.info-item p {
+  font-size: 13px;
+  color: var(--gp-secondary-text);
+  line-height: 1.4;
+}

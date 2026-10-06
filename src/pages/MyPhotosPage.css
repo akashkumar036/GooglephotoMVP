@@ -1,0 +1,189 @@
+/* ──────────────────────────────────────
+   MyPhotosPage Styling
+   Phase 11: My Photos Import & Library
+   ────────────────────────────────────── */
+
+.my-photos-page {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  width: 100%;
+}
+
+.my-photos-page__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.my-photos-page__header-left {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.my-photos-page__title {
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: var(--gp-on-surface, #e8eaed);
+  margin: 0;
+}
+
+.my-photos-page__count {
+  font-size: 0.85rem;
+  color: var(--gp-secondary-text, #9aa0a6);
+}
+
+.my-photos-page__header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.privacy-badge {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: var(--gp-radius-pill, 9999px);
+  background: rgba(129, 201, 149, 0.12);
+  color: var(--gp-chip-location, #81c995);
+  border: 1px solid rgba(129, 201, 149, 0.25);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: help;
+  outline: none;
+  user-select: none;
+}
+
+.privacy-badge:focus-visible {
+  box-shadow: 0 0 0 2px var(--gp-chip-location, #81c995);
+}
+
+.privacy-badge .material-symbols-outlined {
+  font-size: 14px;
+}
+
+.privacy-badge__tooltip {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  background-color: var(--gp-surface, #2d2f31);
+  color: var(--gp-on-surface, #e8eaed);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 400;
+  white-space: nowrap;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(-4px);
+  transition:
+    opacity var(--gp-transition-fast, 150ms ease),
+    transform var(--gp-transition-fast, 150ms ease);
+  z-index: 100;
+}
+
+.privacy-badge:hover .privacy-badge__tooltip,
+.privacy-badge:focus .privacy-badge__tooltip {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.my-photos-page__clear-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  background-color: transparent;
+  border: 1px solid rgba(242, 139, 130, 0.25);
+  border-radius: var(--gp-radius-pill, 9999px);
+  color: var(--gp-error, #f28b82);
+  font-size: 0.825rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background-color var(--gp-transition-fast, 150ms ease),
+    border-color var(--gp-transition-fast, 150ms ease),
+    color var(--gp-transition-fast, 150ms ease);
+}
+
+.my-photos-page__clear-btn:hover {
+  background-color: rgba(242, 139, 130, 0.12);
+  border-color: rgba(242, 139, 130, 0.5);
+  color: #f6aea9;
+}
+
+.my-photos-page__clear-btn .material-symbols-outlined {
+  font-size: 16px;
+}
+
+.my-photos-page__add-more-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  background-color: var(--gp-surface, #303134);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--gp-radius-pill, 9999px);
+  color: var(--gp-on-surface, #e8eaed);
+  font-size: 0.825rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background-color var(--gp-transition-fast, 150ms ease),
+    border-color var(--gp-transition-fast, 150ms ease);
+}
+
+.my-photos-page__add-more-btn:hover {
+  background-color: var(--gp-surface-hover, #35363a);
+  border-color: var(--gp-primary, #8ab4f8);
+  color: var(--gp-primary, #8ab4f8);
+}
+
+.my-photos-page__add-more-btn .material-symbols-outlined {
+  font-size: 18px;
+}
+
+.my-photos-page__content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.my-photos-page__import-wrap {
+  display: flex;
+  flex-direction: column;
+  padding: 16px 24px;
+}
+
+.my-photos-page__cancel-import-btn {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: none;
+  color: var(--gp-secondary-text, #9aa0a6);
+  font-size: 0.875rem;
+  cursor: pointer;
+  margin-bottom: 12px;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.my-photos-page__cancel-import-btn:hover {
+  color: var(--gp-on-surface, #e8eaed);
+}
+
+.my-photos-page__grid-wrap {
+  padding: 16px 24px;
+}

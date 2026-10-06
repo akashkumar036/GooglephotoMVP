@@ -1,0 +1,188 @@
+/* ──────────────────────────────────────
+   FeedbackDebugPanel Styling
+   Phase 16.4: Feedback Debug Inspector
+   ────────────────────────────────────── */
+
+.feedback-debug-panel {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 1050;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  font-family: inherit;
+}
+
+.feedback-debug-panel__toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background-color: var(--gp-surface, #303134);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: var(--gp-radius-pill, 9999px);
+  color: var(--gp-secondary-text, #9aa0a6);
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+  transition:
+    background-color var(--gp-transition-fast, 150ms ease),
+    color var(--gp-transition-fast, 150ms ease);
+}
+
+.feedback-debug-panel__toggle-btn:hover {
+  background-color: var(--gp-surface-variant, #3c4043);
+  color: var(--gp-on-surface, #e8eaed);
+}
+
+.feedback-debug-panel__toggle-btn .material-symbols-outlined {
+  font-size: 14px;
+  color: var(--gp-primary, #8ab4f8);
+}
+
+.feedback-debug-panel__content {
+  margin-top: 8px;
+  background-color: var(--gp-surface, #282a2d);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 12px;
+  padding: 16px;
+  width: 280px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  animation: debugPanelFadeIn 150ms ease-out;
+}
+
+.feedback-debug-panel__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.feedback-debug-panel__title {
+  margin: 0;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--gp-on-surface, #e8eaed);
+}
+
+.feedback-debug-panel__close-icon {
+  background: transparent;
+  border: none;
+  color: var(--gp-secondary-text, #9aa0a6);
+  cursor: pointer;
+  font-size: 12px;
+  padding: 2px 4px;
+}
+
+.feedback-debug-panel__close-icon:hover {
+  color: var(--gp-on-surface, #e8eaed);
+}
+
+.feedback-debug-panel__summary {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.feedback-debug-panel__metric {
+  background-color: rgba(255, 255, 255, 0.04);
+  border-radius: 6px;
+  padding: 6px 2px;
+  display: flex;
+  flex-direction: column;
+}
+
+.metric-value {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--gp-primary, #8ab4f8);
+}
+
+.metric-label {
+  font-size: 10px;
+  color: var(--gp-secondary-text, #9aa0a6);
+}
+
+.feedback-debug-panel__signals {
+  margin-bottom: 12px;
+}
+
+.signals-title {
+  margin: 0 0 6px 0;
+  font-size: 11px;
+  color: var(--gp-secondary-text, #9aa0a6);
+  font-weight: 500;
+}
+
+.no-signals {
+  margin: 0;
+  font-size: 11px;
+  color: var(--gp-secondary-text, #9aa0a6);
+  font-style: italic;
+}
+
+.signals-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-height: 120px;
+  overflow-y: auto;
+}
+
+.signals-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  padding: 3px 6px;
+  background-color: rgba(255, 255, 255, 0.03);
+  border-radius: 4px;
+}
+
+.signals-name {
+  color: var(--gp-on-surface, #e8eaed);
+}
+
+.signals-count {
+  font-weight: 600;
+  color: var(--gp-chip-location, #81c995);
+}
+
+.feedback-debug-panel__footer {
+  display: flex;
+  justify-content: flex-end;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 8px;
+}
+
+.feedback-debug-panel__btn-clear {
+  background: transparent;
+  border: 1px solid rgba(242, 139, 130, 0.3);
+  color: var(--gp-error, #f28b82);
+  border-radius: var(--gp-radius-pill, 9999px);
+  padding: 3px 10px;
+  font-size: 10px;
+  cursor: pointer;
+  transition: background-color var(--gp-transition-fast, 150ms ease);
+}
+
+.feedback-debug-panel__btn-clear:hover {
+  background-color: rgba(242, 139, 130, 0.12);
+}
+
+@keyframes debugPanelFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

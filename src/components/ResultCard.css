@@ -1,0 +1,288 @@
+/* ──────────────────────────────────────
+   ResultCard — Photo result tile with reason chip
+   Phase 9: Results Experience
+   ────────────────────────────────────── */
+
+.result-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  overflow: hidden;
+  background-color: var(--gp-surface, #303134);
+  border-radius: var(--gp-radius-card, 8px);
+  border: 2px solid transparent;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    transform var(--gp-transition-fast, 150ms ease),
+    border-color var(--gp-transition-fast, 150ms ease),
+    box-shadow var(--gp-transition-fast, 150ms ease);
+}
+
+.result-card:focus-visible {
+  outline: 2px solid var(--gp-primary, #8ab4f8);
+  outline-offset: 2px;
+}
+
+.result-card:hover {
+  box-shadow: var(--gp-shadow-2, 0 1px 2px 0 rgba(0, 0, 0, 0.3), 0 2px 6px 2px rgba(0, 0, 0, 0.15));
+}
+
+.result-card:hover .result-card__img {
+  transform: scale(1.04);
+}
+
+/* ── Selected state ── */
+.result-card--selected {
+  border-color: var(--gp-primary, #8ab4f8);
+  box-shadow: 0 0 0 2px var(--gp-primary-container, rgba(138, 180, 248, 0.16));
+}
+
+.result-card--selected .result-card__sel-badge {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ── Thumbnail Container ── */
+.result-card__thumb-container {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background-color: var(--gp-surface-variant, #3c4043);
+}
+
+/* ── Image ── */
+.result-card__img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.25s ease, opacity 0.3s ease;
+  opacity: 0;
+}
+
+.result-card__img--loaded {
+  opacity: 1;
+}
+
+/* ── Skeleton ── */
+.result-card__skeleton {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    var(--gp-surface, #303134) 0%,
+    var(--gp-surface-variant, #3c4043) 50%,
+    var(--gp-surface, #303134) 100%
+  );
+  background-size: 200% 100%;
+  animation: result-skeleton-shimmer 1.6s ease-in-out infinite;
+}
+
+@keyframes result-skeleton-shimmer {
+  0% { background-position: 200% center; }
+  100% { background-position: -200% center; }
+}
+
+/* ── Hover overlay gradient ── */
+.result-card__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.6) 0%,
+    rgba(0, 0, 0, 0.1) 40%,
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity var(--gp-transition-fast, 150ms ease);
+  pointer-events: none;
+}
+
+.result-card:hover .result-card__overlay {
+  opacity: 1;
+}
+
+.result-card--selected .result-card__overlay {
+  opacity: 0.2;
+}
+
+/* ── Selection badge (top-left) ── */
+.result-card__sel-badge {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  z-index: 4;
+  color: var(--gp-primary, #8ab4f8);
+  opacity: 0;
+  transform: scale(0.6);
+  transition:
+    opacity var(--gp-transition-fast, 150ms ease),
+    transform var(--gp-transition-fast, 150ms ease);
+  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.5));
+}
+
+.result-card__sel-badge .material-symbols-outlined {
+  font-size: 22px;
+  font-variation-settings: 'FILL' 1;
+}
+
+.result-card:hover .result-card__sel-badge {
+  opacity: 0.7;
+  transform: scale(1);
+  color: #fff;
+}
+
+.result-card--selected .result-card__sel-badge {
+  opacity: 1;
+  transform: scale(1);
+  color: var(--gp-primary, #8ab4f8);
+}
+
+/* ── ⋮ menu button (top-right) ── */
+.result-card__menu-btn {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  z-index: 4;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.45);
+  color: #fff;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  cursor: pointer;
+  transition: opacity var(--gp-transition-fast, 150ms ease), background var(--gp-transition-fast, 150ms ease);
+  backdrop-filter: blur(4px);
+}
+
+.result-card__menu-btn .material-symbols-outlined {
+  font-size: 18px;
+}
+
+.result-card:hover .result-card__menu-btn,
+.result-card:focus-within .result-card__menu-btn {
+  opacity: 1;
+}
+
+.result-card__menu-btn:hover {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.result-card__menu-btn:focus-visible {
+  opacity: 1;
+  outline: 2px solid var(--gp-primary);
+  outline-offset: 1px;
+}
+
+/* ── Reason chip (bottom of thumbnail, Phase 9.2 & Phase 18.1) ── */
+.result-card__chip {
+  position: absolute;
+  bottom: 6px;
+  left: 6px;
+  right: 6px;
+  z-index: 4;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: var(--gp-radius-pill, 9999px);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  backdrop-filter: blur(8px);
+  /* Subtle, not intrusive as per Phase 9.2 */
+  opacity: 0.85;
+  transition: opacity 200ms ease, transform 200ms ease;
+}
+
+.result-card__chip--pending {
+  opacity: 0;
+  transform: translateY(4px);
+  pointer-events: none;
+}
+
+.result-card__chip--loaded {
+  opacity: 0.85;
+  transform: translateY(0);
+}
+
+.result-card:hover .result-card__chip--loaded {
+  opacity: 1;
+}
+
+/* Color coded chips as per Phase 9.2 */
+.result-card__chip--visual {
+  background: var(--gp-chip-visual-bg, rgba(138, 180, 248, 0.15));
+  color: var(--gp-chip-visual, #8ab4f8);
+  border: 1px solid rgba(138, 180, 248, 0.3);
+}
+
+.result-card__chip--temporal {
+  background: var(--gp-chip-temporal-bg, rgba(253, 214, 99, 0.15));
+  color: var(--gp-chip-temporal, #fdd663);
+  border: 1px solid rgba(253, 214, 99, 0.3);
+}
+
+.result-card__chip--location {
+  background: var(--gp-chip-location-bg, rgba(129, 201, 149, 0.15));
+  color: var(--gp-chip-location, #81c995);
+  border: 1px solid rgba(129, 201, 149, 0.3);
+}
+
+.result-card__chip--people {
+  background: var(--gp-chip-people-bg, rgba(197, 138, 249, 0.15));
+  color: var(--gp-chip-people, #c58af9);
+  border: 1px solid rgba(197, 138, 249, 0.3);
+}
+
+.result-card__chip--event {
+  background: var(--gp-chip-event-bg, rgba(120, 217, 236, 0.15));
+  color: var(--gp-chip-event, #78d9ec);
+  border: 1px solid rgba(120, 217, 236, 0.3);
+}
+
+.result-card__chip--text {
+  background: var(--gp-chip-text-bg, rgba(255, 139, 203, 0.15));
+  color: var(--gp-chip-text, #ff8bcb);
+  border: 1px solid rgba(255, 139, 203, 0.3);
+}
+
+/* ── Best Match Explanation (Phase 9.3) ── */
+.result-card__explanation {
+  padding: 8px 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background-color: var(--gp-surface, #303134);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  font-size: 12px;
+  color: var(--gp-on-surface, #e8eaed);
+  line-height: 1.3;
+}
+
+.result-card__explanation-icon {
+  font-size: 15px;
+  color: var(--gp-primary, #8ab4f8);
+  flex-shrink: 0;
+}
+
+.result-card__explanation-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 500;
+  color: var(--gp-on-surface, #e8eaed);
+}
+
+/* Mobile: always show menu btn */
+@media (hover: none) {
+  .result-card__menu-btn {
+    opacity: 1;
+  }
+}

@@ -1,0 +1,57 @@
+/* ──────────────────────────────────────
+   SkeletonGrid Styling
+   Phase 15: Loading States & Shimmer
+   ────────────────────────────────────── */
+
+.skeleton-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 4px;
+  width: 100%;
+  padding: 16px 24px;
+  box-sizing: border-box;
+}
+
+@media (min-width: 640px) {
+  .skeleton-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .skeleton-grid {
+    grid-template-columns: repeat(6, 1fr);
+    gap: 8px;
+  }
+}
+
+.skeleton-grid__item {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  background-color: var(--gp-surface, #2d2f31);
+  border-radius: var(--gp-radius-card, 12px);
+  overflow: hidden;
+}
+
+.skeleton-grid__shimmer {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.06) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: translateX(-100%);
+  animation: skeletonShimmer 1.5s infinite ease-in-out;
+}
+
+@keyframes skeletonShimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}

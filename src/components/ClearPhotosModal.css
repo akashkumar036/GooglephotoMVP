@@ -1,0 +1,119 @@
+/* ──────────────────────────────────────
+   ClearPhotosModal Styling
+   Phase 14: Privacy & Data Management
+   ────────────────────────────────────── */
+
+.clear-modal__backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1200;
+  padding: 16px;
+  animation: clearModalFadeIn 150ms ease-out;
+}
+
+.clear-modal__dialog {
+  background-color: var(--gp-surface, #282a2d);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--gp-radius-card, 16px);
+  max-width: 400px;
+  width: 100%;
+  padding: 24px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+  animation: clearModalScaleIn 180ms cubic-bezier(0, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+}
+
+.clear-modal__icon-wrap {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: rgba(242, 139, 130, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.clear-modal__icon {
+  font-size: 24px;
+  color: var(--gp-error, #f28b82);
+}
+
+.clear-modal__title {
+  margin: 0 0 8px 0;
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: var(--gp-on-surface, #e8eaed);
+  line-height: 1.3;
+}
+
+.clear-modal__description {
+  margin: 0 0 24px 0;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  color: var(--gp-secondary-text, #9aa0a6);
+}
+
+.clear-modal__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.clear-modal__btn {
+  padding: 9px 18px;
+  border-radius: var(--gp-radius-pill, 9999px);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background-color var(--gp-transition-fast, 150ms ease),
+    opacity var(--gp-transition-fast, 150ms ease);
+}
+
+.clear-modal__btn--cancel {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  color: var(--gp-on-surface, #e8eaed);
+}
+
+.clear-modal__btn--cancel:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+.clear-modal__btn--confirm {
+  background-color: var(--gp-error, #f28b82);
+  border: none;
+  color: #202124;
+  font-weight: 600;
+}
+
+.clear-modal__btn--confirm:hover {
+  background-color: #f6aea9;
+}
+
+@keyframes clearModalFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes clearModalScaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

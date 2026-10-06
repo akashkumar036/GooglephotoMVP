@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"tertiary-fixed-dim":"#c0c1ff","primary-container":"#2563eb","secondary-container":"#2170e4","surface-container-high":"#e2e7ff","outline":"#737686","on-secondary-container":"#fefcff","on-error":"#ffffff","surface":"#faf8ff","surface-bright":"#faf8ff","on-surface-variant":"#434655","on-primary-container":"#eeefff","surface-dim":"#d2d9f4","tertiary-container":"#585be6","on-secondary-fixed-variant":"#004395","on-secondary":"#ffffff","on-tertiary-fixed-variant":"#2f2ebe","on-tertiary-fixed":"#07006c","primary-fixed":"#dbe1ff","on-primary":"#ffffff","surface-container":"#eaedff","outline-variant":"#c3c6d7","secondary-fixed-dim":"#adc6ff","secondary-fixed":"#d8e2ff","on-background":"#131b2e","surface-container-lowest":"#ffffff","on-primary-fixed":"#00174b","error-container":"#ffdad6","on-tertiary-container":"#f1eeff","background":"#faf8ff","surface-variant":"#dae2fd","on-tertiary":"#ffffff","on-primary-fixed-variant":"#003ea8","inverse-surface":"#283044","inverse-on-surface":"#eef0ff","surface-tint":"#0053db","surface-container-low":"#f2f3ff","tertiary":"#3e3fcc","primary-fixed-dim":"#b4c5ff","on-surface":"#131b2e","inverse-primary":"#b4c5ff","on-error-container":"#93000a","surface-container-highest":"#dae2fd","secondary":"#0058be","error":"#ba1a1a","tertiary-fixed":"#e1e0ff","primary":"#004ac6","on-secondary-fixed":"#001a42"},borderRadius:{DEFAULT:"0.25rem",lg:"0.5rem",xl:"0.75rem",full:"9999px"},spacing:{"space-xs":"0.25rem",margin:"2rem","space-xl":"2.5rem",gutter:"0.75rem","space-lg":"1.5rem","space-md":"1rem","gutter-mobile":"0.25rem","space-sm":"0.5rem","margin-mobile":"1rem"},fontFamily:{"label-sm":["Plus Jakarta Sans"],"headline-lg":["Plus Jakarta Sans"],"display-lg":["Plus Jakarta Sans"],"headline-md":["Plus Jakarta Sans"],"body-lg":["Plus Jakarta Sans"],"body-sm":["Plus Jakarta Sans"],"body-md":["Plus Jakarta Sans"],"label-md":["Plus Jakarta Sans"],"display-lg-mobile":["Plus Jakarta Sans"],"headline-sm":["Plus Jakarta Sans"],"label-lg":["Plus Jakarta Sans"]},fontSize:{"label-sm":["11px",{lineHeight:"14px",letterSpacing:"0.025em",fontWeight:"600"}],"headline-lg":["28px",{lineHeight:"36px",letterSpacing:"-0.02em",fontWeight:"600"}],"display-lg":["40px",{lineHeight:"48px",letterSpacing:"-0.025em",fontWeight:"700"}],"headline-md":["22px",{lineHeight:"30px",letterSpacing:"-0.015em",fontWeight:"600"}],"body-lg":["16px",{lineHeight:"24px",letterSpacing:"-0.005em",fontWeight:"400"}],"body-sm":["13px",{lineHeight:"18px",letterSpacing:"0.005em",fontWeight:"400"}],"body-md":["14px",{lineHeight:"20px",letterSpacing:"0em",fontWeight:"400"}],"label-md":["12px",{lineHeight:"16px",letterSpacing:"0.01em",fontWeight:"500"}],"display-lg-mobile":["30px",{lineHeight:"38px",letterSpacing:"-0.02em",fontWeight:"700"}],"headline-sm":["18px",{lineHeight:"26px",letterSpacing:"-0.01em",fontWeight:"600"}],"label-lg":["14px",{lineHeight:"20px",letterSpacing:"0.005em",fontWeight:"600"}]}}}};</script></head><body class="bg-surface font-body-md text-on-surface antialiased"><header class="fixed top-0 left-0 right-0 h-16 bg-surface-container-lowest/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40 flex items-center justify-between px-space-md lg:px-space-lg gap-space-md"><div class="flex items-center gap-space-sm shrink-0"><button class="p-space-xs rounded-full hover:bg-surface-container text-on-surface-variant hover:text-on-surface lg:hidden" type="button"><span class="material-symbols-outlined text-[22px]">menu</span></button><img alt="Lumina Photos App Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1XwvgHYP0qjjC0CraizdK286vKfTC4SN4wmL9HaQRoMvsT7smSkedRVMoywQNe6y1-m9ZrxQv4sul5VEesRZt38l2jYP5bcvqQjVXGFNYuSYRC-ytp181QHmI88vM6wI6xr8C7jWCPN6Yx2u6KbaRy58j3GJG1BIfetatqyyw5sIwvXmXvIf2UbFDlhVPmlLCwsQlzkxGw3UMGqvOKEIRJ5aJ9jvlZu3V1RlTgyPYW_YbLtSwGrDa4xXwVw"/><span class="font-headline-sm text-headline-sm text-on-surface tracking-tight font-bold hidden sm:inline-block">Lumina</span><span class="font-label-sm text-label-sm px-space-xs py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed font-semibold tracking-wide ml-0.5">AI 2.0</span></div><div class="flex-1 max-w-2xl mx-space-sm hidden md:block"><div class="relative flex items-center w-full h-11 bg-surface-container-low rounded-full px-space-md text-on-surface-variant focus-within:bg-surface-container-lowest focus-within:ring-2 focus-within:ring-primary/20 shadow-[0_2px_8px_rgba(0,0,0,0.02)] transition-all"><span class="material-symbols-outlined text-outline text-[20px] mr-space-sm shrink-0">search</span><input class="w-full bg-transparent border-0 outline-none font-body-sm text-body-sm text-on-surface placeholder:text-outline" placeholder="Search photos, people, places, things, or 'sunset in Goa'..." type="text"/><button class="p-1 text-outline hover:text-on-surface rounded-full transition-colors" type="button"><span class="material-symbols-outlined text-[18px]">mic</span></button><span class="font-label-sm text-label-sm text-outline bg-surface-container-highest px-1.5 py-0.5 rounded ml-space-xs hidden lg:inline-block">⌘K</span></div></div><div class="flex items-center gap-space-xs sm:gap-space-sm shrink-0"><div class="hidden xl:flex items-center gap-1.5 px-space-sm py-1 rounded-full bg-surface-container-low text-on-surface-variant"><span class="material-symbols-outlined text-[16px] text-primary">cloud_done</span><span class="font-label-sm text-label-sm text-on-surface-variant">All backed up</span></div><button class="hidden sm:flex items-center gap-1 h-9 px-space-md rounded-full bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-md text-label-md transition-colors" type="button"><span class="material-symbols-outlined text-[18px]">add</span><span>Create</span><span class="material-symbols-outlined text-[16px]">expand_more</span></button><button class="flex items-center gap-1 h-9 px-space-md rounded-full bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md shadow-[0_2px_8px_rgba(37,99,235,0.25)] transition-all" type="button"><span class="material-symbols-outlined text-[18px]">upload</span><span class="hidden sm:inline">Upload</span><span class="material-symbols-outlined text-[16px]">arrow_drop_down</span></button><button class="p-space-xs rounded-full hover:bg-surface-container text-on-surface-variant hover:text-on-surface transition-colors hidden sm:inline-flex" type="button"><span class="material-symbols-outlined text-[20px]">help_outline</span></button><div class="relative flex items-center justify-center p-0.5 rounded-full ring-2 ring-primary/30 ring-offset-2 ring-offset-surface-container-lowest" title="42.8 GB of 100 GB used"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><aside class="fixed left-0 top-16 bottom-0 w-64 bg-surface-container-lowest/80 backdrop-blur-md z-30 hidden lg:flex flex-col justify-between p-space-md overflow-y-auto"><div class="flex flex-col gap-space-md"><nav class="flex flex-col gap-1" data-active-classes="bg-surface-container text-primary font-bold"><a class="flex items-center justify-between px-space-md py-2.5 rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="photos-timeline" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">photo_library</span><span class="font-label-lg text-label-lg">Photos</span></div><span class="font-label-sm text-label-sm text-outline">12,480</span></a><a class="flex items-center justify-between px-space-md py-2.5 rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="explore-and-search" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">auto_awesome</span><span class="font-label-lg text-label-lg">Explore &amp; Search</span></div></a><a class="flex items-center justify-between px-space-md py-2.5 rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="favorites" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">favorite</span><span class="font-label-lg text-label-lg">Favorites</span></div><span class="font-label-sm text-label-sm text-outline">142</span></a><a class="flex items-center justify-between px-space-md py-2.5 rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="albums" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">photo_album</span><span class="font-label-lg text-label-lg">Albums</span></div><span class="font-label-sm text-label-sm text-outline">18</span></a><a class="flex items-center justify-between px-space-md py-2.5 rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="memories" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">slideshow</span><span class="font-label-lg text-label-lg">Memories</span></div><span class="font-label-sm text-label-sm px-1.5 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-semibold">New</span></a><a class="flex items-center justify-between px-space-md py-2.5 rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="sharing" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">group</span><span class="font-label-lg text-label-lg">Sharing</span></div></a></nav><div class="pt-space-sm"><p class="px-space-md font-label-sm text-label-sm uppercase tracking-wider text-outline mb-1.5">Library</p><nav class="flex flex-col gap-1" data-active-classes="bg-surface-container text-primary font-bold"><a class="flex items-center justify-between px-space-md py-2 rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="archive" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">archive</span><span class="font-label-md text-label-md">Archive</span></div></a><a class="flex items-center justify-between px-space-md py-2 rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="utilities-and-documents" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">document_scanner</span><span class="font-label-md text-label-md">Utilities</span></div></a><a class="flex items-center justify-between px-space-md py-2 rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="trash" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">delete</span><div class="flex flex-col"><span class="font-label-md text-label-md leading-tight">Trash</span><span class="font-label-sm text-label-sm text-outline">30d auto-clean</span></div></div></a></nav></div></div><div class="pt-space-md flex flex-col gap-space-sm"><div class="p-space-sm rounded-xl bg-surface-container-low flex flex-col gap-1.5"><div class="flex items-center justify-between font-label-sm text-label-sm text-on-surface"><span class="font-medium">Storage</span><span>42.8 GB of 100 GB</span></div><div class="w-full h-1.5 bg-surface-container-highest rounded-full overflow-hidden"><div class="h-full bg-primary rounded-full" style="width: 42.8%"></div></div><a class="font-label-sm text-label-sm text-primary hover:underline self-start pt-0.5" data-path="storage-manager" href="#">Manage storage</a></div><div class="flex items-center justify-between px-space-xs text-on-surface-variant"><a class="flex items-center gap-space-xs py-1.5 px-space-xs rounded-lg hover:text-on-surface font-label-md text-label-md transition-colors" data-path="settings" href="#"><span class="material-symbols-outlined text-[20px]">settings</span><span>Settings</span></a><button class="p-1.5 rounded-lg hover:bg-surface-container hover:text-on-surface transition-colors" title="Collapse sidebar" type="button"><span class="material-symbols-outlined text-[18px]">keyboard_double_arrow_left</span></button></div></div></aside><div class="lg:pl-64 flex flex-col min-h-screen"><main class="w-full pt-16 pb-20 lg:pb-0 bg-surface flex-1 px-gutter lg:px-space-lg"><div class="flex flex-col w-full">
+<div class="relative w-full h-[calc(100vh-4rem)] -mt-16 -mx-gutter lg:-mx-space-lg overflow-hidden bg-[#07090e] select-none text-white font-body-md">
+<div class="fixed top-20 left-1/2 -translate-x-1/2 z-50 pointer-events-none transition-all duration-300 opacity-0 translate-y-2 flex items-center gap-2 px-4 py-2.5 rounded-full bg-inverse-surface/90 text-inverse-on-surface shadow-2xl backdrop-blur-md text-label-md" id="toast">
+<span class="material-symbols-outlined text-[18px] text-tertiary-fixed" id="toast-icon">check_circle</span>
+<span id="toast-text">Updated</span>
+</div>
+<!-- Top Floating Header Bar -->
+<header class="absolute top-0 inset-x-0 h-18 px-6 py-4 z-40 flex items-center justify-between pointer-events-auto bg-gradient-to-b from-[#07090e]/90 via-[#07090e]/50 to-transparent backdrop-blur-sm">
+<div class="flex items-center gap-3">
+<a class="group flex items-center justify-center w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 transition-all text-white/90 hover:text-white" data-path="photos-timeline" href="#" title="Back to library (Esc)">
+<span class="material-symbols-outlined text-[20px] transition-transform group-hover:-translate-x-0.5">arrow_back</span>
+</a>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-headline-sm text-headline-sm text-white tracking-tight" id="photo-title">Nandi Hills Sunrise Panorama</span>
+<span class="px-2 py-0.5 rounded-full bg-white/10 text-white/70 font-label-sm text-label-sm uppercase tracking-wider">RAW • HDR</span>
+</div>
+<span class="font-label-sm text-label-sm text-white/60" id="photo-subtitle">Oct 4, 2026 • 6:45 AM • Bengaluru, India</span>
+</div>
+</div>
+<!-- Right Action Items -->
+<div class="relative flex items-center gap-1.5 sm:gap-2">
+<button class="flex items-center justify-center w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 transition-all text-white/90 hover:text-white" id="btn-share" title="Share photo">
+<span class="material-symbols-outlined text-[20px]">share</span>
+</button>
+<button class="flex items-center justify-center w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 transition-all text-white/90 hover:text-white" id="btn-edit" title="Edit / Adjustments">
+<span class="material-symbols-outlined text-[20px]">tune</span>
+</button>
+<button class="flex items-center justify-center w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 transition-all text-white/90 hover:text-white" id="btn-zoom" title="Toggle Zoom (Z)">
+<span class="material-symbols-outlined text-[20px]" id="zoom-icon">zoom_in</span>
+</button>
+<button class="flex items-center justify-center w-10 h-10 rounded-full bg-primary text-white shadow-lg shadow-primary/30 transition-all" id="btn-info" title="Toggle Details (I)">
+<span class="material-symbols-outlined text-[20px]">info</span>
+</button>
+<button class="flex items-center justify-center w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white/90 transition-all" id="btn-favorite" title="Favorite">
+<span class="material-symbols-outlined text-[20px] text-rose-400" id="fav-icon" style="font-variation-settings: 'FILL' 1;">favorite</span>
+</button>
+<button class="flex items-center justify-center w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white/90 hover:text-rose-400 transition-all" id="btn-trash" title="Move to Trash">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+<!-- More Three-Dot Capsule -->
+<div class="relative">
+<button class="flex items-center justify-center w-10 h-10 rounded-full bg-white/20 text-white shadow-md transition-all ring-2 ring-white/30" id="btn-more" title="More options">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+<!-- Contextual Floating Dropdown Menu (Open by default per spec) -->
+<div class="absolute right-0 top-12 w-72 rounded-2xl bg-surface-container-lowest/95 backdrop-blur-xl shadow-2xl p-1.5 z-50 text-on-surface transform transition-all duration-200 origin-top-right" id="context-menu">
+<div class="flex flex-col gap-0.5">
+<button class="w-full flex items-center justify-between px-3 py-2 rounded-xl hover:bg-surface-container text-on-surface-variant hover:text-on-surface transition-colors text-left" id="menu-slideshow">
+<div class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-[19px] text-outline">slideshow</span>
+<span class="font-label-lg text-label-lg">Slideshow</span>
+</div>
+<span class="font-label-sm text-label-sm text-outline">Space</span>
+</button>
+<button class="w-full flex items-center justify-between px-3 py-2 rounded-xl hover:bg-surface-container text-on-surface-variant hover:text-on-surface transition-colors text-left" id="menu-download">
+<div class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-[19px] text-outline">download</span>
+<span class="font-label-lg text-label-lg">Download original</span>
+</div>
+<span class="font-label-sm text-label-sm text-outline bg-surface-container-highest px-1.5 py-0.5 rounded">⇧D</span>
+</button>
+<button class="w-full flex items-center justify-between px-3 py-2 rounded-xl hover:bg-surface-container text-on-surface-variant hover:text-on-surface transition-colors text-left" id="menu-rotate">
+<div class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-[19px] text-outline">rotate_left</span>
+<span class="font-label-lg text-label-lg">Rotate left</span>
+</div>
+<span class="font-label-sm text-label-sm text-outline bg-surface-container-highest px-1.5 py-0.5 rounded">⇧R</span>
+</button>
+<div class="my-1 h-px bg-surface-container-highest"></div>
+<button class="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-surface-container text-on-surface-variant hover:text-on-surface transition-colors text-left" id="menu-album">
+<span class="material-symbols-outlined text-[19px] text-outline">add_photo_alternate</span>
+<span class="font-label-lg text-label-lg">Add to album</span>
+</button>
+<button class="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-surface-container text-on-surface-variant hover:text-on-surface transition-colors text-left">
+<span class="material-symbols-outlined text-[19px] text-outline">folder_special</span>
+<span class="font-label-lg text-label-lg">Add to documents</span>
+</button>
+<button class="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-surface-container text-on-surface-variant hover:text-on-surface transition-colors text-left">
+<span class="material-symbols-outlined text-[19px] text-outline">screenshot_keyboard</span>
+<span class="font-label-lg text-label-lg">Add to screenshots</span>
+</button>
+<div class="my-1 h-px bg-surface-container-highest"></div>
+<button class="w-full flex items-center justify-between px-3 py-2 rounded-xl hover:bg-surface-container text-on-surface-variant hover:text-on-surface transition-colors text-left" id="menu-archive">
+<div class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-[19px] text-outline">archive</span>
+<span class="font-label-lg text-label-lg">Archive</span>
+</div>
+<span class="font-label-sm text-label-sm text-outline bg-surface-container-highest px-1.5 py-0.5 rounded">⇧A</span>
+</button>
+<button class="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-surface-container text-on-surface-variant hover:text-on-surface transition-colors text-left">
+<span class="material-symbols-outlined text-[19px] text-outline">lock</span>
+<span class="font-label-lg text-label-lg">Move to Locked Folder</span>
+</button>
+<button class="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-error-container text-error transition-colors text-left" id="menu-trash">
+<span class="material-symbols-outlined text-[19px]">delete</span>
+<span class="font-label-lg text-label-lg font-semibold">Move to trash</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Viewport Canvas & Split Layout -->
+<div class="relative w-full h-full flex items-stretch">
+<!-- Central Photographic Stage -->
+<div class="relative flex-1 h-full flex items-center justify-center overflow-hidden transition-all duration-300" id="stage">
+<!-- Left Navigation Arrow -->
+<button class="absolute left-6 z-30 flex items-center justify-center w-12 h-12 rounded-full bg-[#121622]/70 hover:bg-[#121622]/95 text-white/80 hover:text-white backdrop-blur-md shadow-xl transition-all -translate-y-1/2 top-1/2 hover:scale-105 active:scale-95" id="btn-prev" title="Previous photo (←)">
+<span class="material-symbols-outlined text-[28px]">chevron_left</span>
+</button>
+<!-- Right Navigation Arrow -->
+<button class="absolute right-6 z-30 flex items-center justify-center w-12 h-12 rounded-full bg-[#121622]/70 hover:bg-[#121622]/95 text-white/80 hover:text-white backdrop-blur-md shadow-xl transition-all -translate-y-1/2 top-1/2 hover:scale-105 active:scale-95" id="btn-next" title="Next photo (→)">
+<span class="material-symbols-outlined text-[28px]">chevron_right</span>
+</button>
+<!-- Photo Container with smooth pan/zoom transformation -->
+<div class="relative w-full h-full p-4 md:p-8 flex items-center justify-center overflow-hidden" id="image-wrapper">
+<div class="relative max-w-full max-h-full transition-transform duration-300 ease-out origin-center flex items-center justify-center" id="transform-target">
+<img alt="Misty mountain hills at sunrise with morning light and pine trees" class="max-h-[839px] max-w-[85vw] object-contain rounded-xl shadow-[0_25px_60px_-15px_rgba(0,0,0,0.8)] cursor-zoom-in" data-alt="An ethereal high-resolution photograph of misty mountain hills at dawn in Coorg Karnataka. Golden morning sunlight pierce dense low-hanging mist, illuminating layered silhouettes of lush pine ridges, rolling tea estates, and deep valleys. Cinematic, hyper-detailed photography with warm amber highlights, cool blue atmospheric haze, rich natural green foliage, and perfect focal clarity." id="active-photo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDUY4mIkbEtfPg_KkHroN68VWDHatVEKVLCP3Xya3HdDGycKAEgvNsYG_xiu0ESXpTdXgQfdUbskYUI8FJjn_rajWcNz8CdaGadXguEpR1wUW-yyR9vBiT6AuCnb3Qqeb6kkTCrPhvjU7awIShB2rYdgRfWrPEqaPYhR2SJB4Y2tuQ2chz9oVMl4n16yQT4Hv6blcrT_Oc1UMKWaRSWWA_cQOL-woNMt0d64CgEydkMchoO0jgwwhOq7g"/>
+</div>
+</div>
+<!-- Ambient Bottom Keyboard Helper Ribbon -->
+<div class="absolute bottom-5 inset-x-0 flex justify-center pointer-events-none z-20">
+<div class="flex items-center gap-4 px-4 py-1.5 rounded-full bg-[#0d101a]/70 backdrop-blur-md text-white/50 font-label-sm text-label-sm border-0 shadow-lg">
+<span><kbd class="text-white/80 font-semibold">←</kbd> <kbd class="text-white/80 font-semibold">→</kbd> to browse</span>
+<span class="w-1 h-1 rounded-full bg-white/20"></span>
+<span><kbd class="text-white/80 font-semibold">Space</kbd> slideshow</span>
+<span class="w-1 h-1 rounded-full bg-white/20"></span>
+<span><kbd class="text-white/80 font-semibold">I</kbd> info</span>
+<span class="w-1 h-1 rounded-full bg-white/20"></span>
+<span><kbd class="text-white/80 font-semibold">Esc</kbd> close</span>
+</div>
+</div>
+</div>
+<!-- Slide-Out Information & EXIF Drawer -->
+<aside class="relative w-96 max-w-full h-full bg-[#121520]/95 backdrop-blur-2xl z-30 flex flex-col transition-all duration-300 shrink-0 shadow-[-16px_0_36px_rgba(0,0,0,0.4)]" id="info-drawer">
+<!-- Drawer Header -->
+<div class="h-18 px-6 py-5 flex items-center justify-between shrink-0 bg-white/[0.02]">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-fixed text-[22px]">info</span>
+<span class="font-headline-sm text-headline-sm text-white font-semibold">Details</span>
+</div>
+<button class="w-8 h-8 rounded-full flex items-center justify-center text-white/60 hover:text-white hover:bg-white/10 transition-colors" id="btn-close-drawer" title="Close drawer">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<!-- Drawer Scrollable Content -->
+<div class="flex-1 overflow-y-auto px-6 py-4 flex flex-col gap-6 scrollbar-none">
+<!-- Primary File Meta -->
+<div class="flex flex-col gap-3 p-4 rounded-2xl bg-white/[0.04]">
+<div class="flex items-start justify-between gap-3">
+<div class="flex flex-col min-w-0">
+<span class="font-label-lg text-label-lg font-bold text-white truncate" id="meta-filename">IMG_20261004_184523.jpg</span>
+<span class="font-label-sm text-label-sm text-white/50">Sony RAW uncompressed</span>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-primary/20 text-primary-fixed font-label-sm text-label-sm font-semibold shrink-0">4K Ultra</span>
+</div>
+<div class="grid grid-cols-2 gap-2 pt-2 text-white/70 font-label-md text-label-md">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[17px] text-white/40">calendar_today</span>
+<span>Oct 4, 2026</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[17px] text-white/40">schedule</span>
+<span>6:45 AM GMT+5:30</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[17px] text-white/40">photo_size_select_actual</span>
+<span>4032 × 3024</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[17px] text-white/40">storage</span>
+<span>4.8 MB</span>
+</div>
+</div>
+</div>
+<!-- Location Section with Map Preview -->
+<div class="flex flex-col gap-3">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-white/50 font-bold">Location</span>
+<a class="font-label-sm text-label-sm text-primary-fixed hover:underline flex items-center gap-0.5" href="#">
+<span>Open Map</span>
+<span class="material-symbols-outlined text-[14px]">open_in_new</span>
+</a>
+</div>
+<div class="p-3.5 rounded-2xl bg-white/[0.04] flex flex-col gap-3">
+<div class="flex items-start gap-2.5">
+<div class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-primary-fixed text-[18px]">location_on</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg font-semibold text-white">Nandi Hills Viewpoint</span>
+<span class="font-body-sm text-body-sm text-white/60">Chikkaballapur, Bengaluru Urban, Karnataka, India</span>
+<span class="font-label-sm text-label-sm text-white/40 mt-0.5 font-mono">13.3702° N, 77.6835° E • 1,478m elev.</span>
+</div>
+</div>
+<!-- Location Map Component using standard data-location attribute -->
+<div class="relative w-full h-36 rounded-xl overflow-hidden shadow-inner group cursor-pointer" data-location="Nandi Hills Viewpoint, Bengaluru, India" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA2FTNWkU6m7dcQG3rx8LxaUGL5yYSXhgEB6mUavgywhLVCvQasS6-8OIcTtRicSDylDBxabV1npwLRFSC_MJn151tVpB_SNIA5kZqAAOu6SuZbyND6D0-1TyhvVP60jyvmo2edhmbhrA_u7qBMryotYTfiTFrcGDlfb6oPHZYX9MJ4CfmutdF_cbIq1heiIQZKeZFNjp9jhEVAVAhZdCL48KKjl4K9dRtzbQCCmRlaSqL0yz9W9uC5uQ')">
+<div class="absolute inset-0 bg-gradient-to-t from-[#090b12] via-transparent to-transparent opacity-60"></div>
+<!-- Stylized Pulsing Pin -->
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="relative flex items-center justify-center">
+<span class="animate-ping absolute inline-flex h-8 w-8 rounded-full bg-primary opacity-60"></span>
+<div class="relative w-7 h-7 rounded-full bg-primary text-white flex items-center justify-center shadow-lg">
+<span class="material-symbols-outlined text-[16px]">navigation</span>
+</div>
+</div>
+</div>
+<div class="absolute bottom-2 left-2.5 px-2 py-0.5 rounded bg-black/70 backdrop-blur-md text-white/80 font-label-sm text-label-sm">
+                  Terrain • Sunrise Facing East
+                </div>
+</div>
+</div>
+</div>
+<!-- Camera EXIF Grid -->
+<div class="flex flex-col gap-3">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-white/50 font-bold">Camera Specifications</span>
+<div class="p-4 rounded-2xl bg-white/[0.04] flex flex-col gap-3.5">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-xl bg-white/10 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-white/80 text-[20px]">photo_camera</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg font-semibold text-white">Sony Alpha 7 IV</span>
+<span class="font-label-sm text-label-sm text-white/50">FE 24-70mm F2.8 GM II Lens</span>
+</div>
+</div>
+<!-- EXIF Parameters Chips -->
+<div class="grid grid-cols-4 gap-2 pt-1 text-center font-mono">
+<div class="p-2 rounded-xl bg-white/[0.06] flex flex-col">
+<span class="text-white/40 text-[10px] uppercase font-sans">Aperture</span>
+<span class="text-white font-semibold text-[13px] mt-0.5">f/2.8</span>
+</div>
+<div class="p-2 rounded-xl bg-white/[0.06] flex flex-col">
+<span class="text-white/40 text-[10px] uppercase font-sans">Shutter</span>
+<span class="text-white font-semibold text-[13px] mt-0.5">1/500s</span>
+</div>
+<div class="p-2 rounded-xl bg-white/[0.06] flex flex-col">
+<span class="text-white/40 text-[10px] uppercase font-sans">Focal</span>
+<span class="text-white font-semibold text-[13px] mt-0.5">24mm</span>
+</div>
+<div class="p-2 rounded-xl bg-white/[0.06] flex flex-col">
+<span class="text-white/40 text-[10px] uppercase font-sans">ISO</span>
+<span class="text-white font-semibold text-[13px] mt-0.5">100</span>
+</div>
+</div>
+</div>
+</div>
+<!-- AI People & Faces Detected -->
+<div class="flex flex-col gap-3">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-white/50 font-bold">People in Shot (2)</span>
+<button class="font-label-sm text-label-sm text-primary-fixed hover:underline">Edit tags</button>
+</div>
+<div class="flex items-center gap-3">
+<div class="group flex items-center gap-2 p-1.5 pr-3 rounded-full bg-white/[0.06] hover:bg-white/10 transition-colors cursor-pointer">
+<div class="w-8 h-8 rounded-full overflow-hidden bg-primary/40 flex items-center justify-center font-bold text-white text-label-md">
+<img alt="Rahul" class="w-full h-full object-cover" data-alt="Close up photographic crop of Rahul smiling outdoor during a mountain hike with soft golden morning light." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAV_gPR43Ao-RgGGSDu48vDq29UX-1SIzAqLOFv_rFdWp1JSgP30XFIgaJEUEIdP6ZT5hZuTkSvlq52GNoX4ntcmgwXPn6qIaArT-7CrPZP8ce5GhdbTIedZSwqhOhHTXLnCImvciryUnBPJ7mn3Warp0jPPNw4iv6A41NR2UCjWjPyH4f6grb98WWJCuH5Rv0F9VNj_MrH_zZF2I9ui8jving76mqdzEIYu_H0396ADGFg21PVR9P3vw"/>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-white font-semibold leading-tight">Rahul</span>
+<span class="font-label-sm text-label-sm text-white/40">24 photos</span>
+</div>
+</div>
+<div class="group flex items-center gap-2 p-1.5 pr-3 rounded-full bg-white/[0.06] hover:bg-white/10 transition-colors cursor-pointer">
+<div class="w-8 h-8 rounded-full overflow-hidden bg-tertiary-container flex items-center justify-center font-bold text-white text-label-md">
+<img alt="Maya" class="w-full h-full object-cover" data-alt="Portrait facial avatar crop of Maya wearing a warm knit beanie looking at morning sunrise in the mountains." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAGn6AjteNSUISgVCELFYSD_hCxYfwq2IB11SXuZXPKvS8V7wMDfhMX39H3cow4pG_QvtH6euu4avK-g-X9JDBo40jYd8BWjTh2PmoDAoxFCosBHr7rIh-pOSHIhtq-KIPsNTg2dCr9999UIYaAiUOimjq-7P9AvVeW0YVKVppYeLjwPoUJVC7nw94QVLVV_njJQqFvZpYH8Y9YDi9C92rEFSsnRjvVZuOp0NOB1ayTSfiDeqxgYatv0w"/>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-white font-semibold leading-tight">Maya</span>
+<span class="font-label-sm text-label-sm text-white/40">51 photos</span>
+</div>
+</div>
+</div>
+</div>
+<!-- AI Semantic Tags & Visual Recognition -->
+<div class="flex flex-col gap-3">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary-fixed text-[18px]">auto_awesome</span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-white/50 font-bold">Smart AI Recognition</span>
+</div>
+<div class="flex flex-wrap gap-1.5">
+<span class="px-3 py-1 rounded-full bg-primary/20 text-primary-fixed font-label-md text-label-md flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">wb_sunny</span> Sunrise
+              </span>
+<span class="px-3 py-1 rounded-full bg-white/[0.06] hover:bg-white/10 text-white/80 font-label-md text-label-md transition-colors cursor-pointer">
+                Misty Mountains
+              </span>
+<span class="px-3 py-1 rounded-full bg-white/[0.06] hover:bg-white/10 text-white/80 font-label-md text-label-md transition-colors cursor-pointer">
+                Golden Hour
+              </span>
+<span class="px-3 py-1 rounded-full bg-white/[0.06] hover:bg-white/10 text-white/80 font-label-md text-label-md transition-colors cursor-pointer">
+                Pine Ridge
+              </span>
+<span class="px-3 py-1 rounded-full bg-white/[0.06] hover:bg-white/10 text-white/80 font-label-md text-label-md transition-colors cursor-pointer">
+                Landscape
+              </span>
+<span class="px-3 py-1 rounded-full bg-white/[0.06] hover:bg-white/10 text-white/80 font-label-md text-label-md transition-colors cursor-pointer">
+                Outdoor Adventure
+              </span>
+</div>
+</div>
+<!-- Color Palette Extracted -->
+<div class="flex flex-col gap-2.5">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-white/50 font-bold">Detected Palette</span>
+<div class="flex items-center gap-2 p-2 rounded-xl bg-white/[0.04]">
+<div class="h-6 flex-1 rounded bg-[#e8a34d]" title="#e8a34d Dawn Gold"></div>
+<div class="h-6 flex-1 rounded bg-[#d97c38]" title="#d97c38 Amber Glow"></div>
+<div class="h-6 flex-1 rounded bg-[#5a6b7c]" title="#5a6b7c Morning Mist"></div>
+<div class="h-6 flex-1 rounded bg-[#2b3c37]" title="#2b3c37 Deep Pine"></div>
+<div class="h-6 flex-1 rounded bg-[#101921]" title="#101921 Valley Shadow"></div>
+</div>
+</div>
+<!-- Albums / Collections -->
+<div class="flex flex-col gap-3 pb-6">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-white/50 font-bold">Appears in Albums</span>
+<div class="flex flex-col gap-2">
+<a class="flex items-center gap-3 p-2.5 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] transition-colors group" href="#">
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-primary group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-[20px]">photo_album</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-md text-label-md font-semibold text-white group-hover:text-primary-fixed truncate">Weekend in Coorg &amp; Nandi Hills</span>
+<span class="font-label-sm text-label-sm text-white/40">148 photos • Shared with 4 people</span>
+</div>
+</a>
+<a class="flex items-center gap-3 p-2.5 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] transition-colors group" href="#">
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-secondary group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-[20px]">explore</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-md text-label-md font-semibold text-white group-hover:text-primary-fixed truncate">Karnataka Roadtrip 2026</span>
+<span class="font-label-sm text-label-sm text-white/40">312 photos • Auto-Curated</span>
+</div>
+</a>
+</div>
+</div>
+</div>
+</aside>
+</div>
+</div>
+<script>
+    (function initPhotoViewer() {
+      // Photo set state
+      const photoLibrary = [
+        {
+          title: "Nandi Hills Sunrise Panorama",
+          subtitle: "Oct 4, 2026 • 6:45 AM • Bengaluru, India",
+          filename: "IMG_20261004_184523.jpg",
+          alt: "An ethereal high-resolution photograph of misty mountain hills at dawn in Coorg Karnataka. Golden morning sunlight pierce dense low-hanging mist, illuminating layered silhouettes of lush pine ridges, rolling tea estates, and deep valleys. Cinematic, hyper-detailed photography with warm amber highlights, cool blue atmospheric haze, rich natural green foliage, and perfect focal clarity."
+        },
+        {
+          title: "Tushar & Maya along Pine Crest",
+          subtitle: "Oct 4, 2026 • 7:12 AM • Brahmagiri Trail",
+          filename: "IMG_20261004_191244.jpg",
+          alt: "Two travelers enjoying hot brewed filter coffee on a wooden ridge overlooking endless foggy pine hills bathed in early morning warm sunlight. Crisp authentic documentary photography, natural golden hour rim light, candid expressions, subtle steaming cup details."
+        },
+        {
+          title: "Emerald Tea Terraces in Cloud Sea",
+          subtitle: "Oct 3, 2026 • 5:50 PM • Madikeri Valley",
+          filename: "IMG_20261003_175010.jpg",
+          alt: "Sweeping landscape shot of geometric emerald tea plantations descending into white fluffy cloud formations during soft golden twilight. High dynamic range, vivid lush greens, cinematic dusk sky with lilac and apricot gradients."
+        }
+      ];
+
+      let currentIndex = 0;
+      let currentRotation = 0;
+      let isZoomed = false;
+      let isFavorite = true;
+      let isDrawerOpen = true;
+
+      // Elements
+      const activePhoto = document.getElementById('active-photo');
+      const transformTarget = document.getElementById('transform-target');
+      const photoTitle = document.getElementById('photo-title');
+      const photoSubtitle = document.getElementById('photo-subtitle');
+      const metaFilename = document.getElementById('meta-filename');
+
+      const btnPrev = document.getElementById('btn-prev');
+      const btnNext = document.getElementById('btn-next');
+      const btnZoom = document.getElementById('btn-zoom');
+      const zoomIcon = document.getElementById('zoom-icon');
+      const btnInfo = document.getElementById('btn-info');
+      const btnCloseDrawer = document.getElementById('btn-close-drawer');
+      const infoDrawer = document.getElementById('info-drawer');
+      const btnFavorite = document.getElementById('btn-favorite');
+      const favIcon = document.getElementById('fav-icon');
+      const btnMore = document.getElementById('btn-more');
+      const contextMenu = document.getElementById('context-menu');
+      const toast = document.getElementById('toast');
+      const toastText = document.getElementById('toast-text');
+      const toastIcon = document.getElementById('toast-icon');
+
+      const menuRotate = document.getElementById('menu-rotate');
+      const menuDownload = document.getElementById('menu-download');
+      const menuSlideshow = document.getElementById('menu-slideshow');
+      const menuArchive = document.getElementById('menu-archive');
+      const menuTrash = document.getElementById('menu-trash');
+      const btnTrash = document.getElementById('btn-trash');
+
+      function showToast(msg, iconName = 'check_circle') {
+        toastText.textContent = msg;
+        toastIcon.textContent = iconName;
+        toast.classList.remove('opacity-0', 'translate-y-2');
+        toast.classList.add('opacity-100', 'translate-y-0');
+        setTimeout(() => {
+          toast.classList.add('opacity-0', 'translate-y-2');
+          toast.classList.remove('opacity-100', 'translate-y-0');
+        }, 2200);
+      }
+
+      function updatePhoto(idx) {
+        currentIndex = (idx + photoLibrary.length) % photoLibrary.length;
+        const p = photoLibrary[currentIndex];
+        
+        // Reset transforms
+        currentRotation = 0;
+        isZoomed = false;
+        applyTransform();
+        zoomIcon.textContent = 'zoom_in';
+
+        // Update Text
+        photoTitle.textContent = p.title;
+        photoSubtitle.textContent = p.subtitle;
+        metaFilename.textContent = p.filename;
+
+        // Update image alt prompt
+        activePhoto.setAttribute('data-alt', p.alt);
+        activePhoto.alt = p.title;
+      }
+
+      function applyTransform() {
+        const scale = isZoomed ? 1.5 : 1.0;
+        transformTarget.style.transform = `scale(${scale}) rotate(${currentRotation}deg)`;
+        activePhoto.style.cursor = isZoomed ? 'zoom-out' : 'zoom-in';
+      }
+
+      // Next / Previous
+      btnPrev.addEventListener('click', () => updatePhoto(currentIndex - 1));
+      btnNext.addEventListener('click', () => updatePhoto(currentIndex + 1));
+
+      // Zoom Toggle
+      function toggleZoom() {
+        isZoomed = !isZoomed;
+        zoomIcon.textContent = isZoomed ? 'zoom_out' : 'zoom_in';
+        applyTransform();
+      }
+      btnZoom.addEventListener('click', toggleZoom);
+      activePhoto.addEventListener('click', toggleZoom);
+
+      // Rotate Left
+      menuRotate.addEventListener('click', () => {
+        currentRotation -= 90;
+        applyTransform();
+        showToast(`Rotated to ${((currentRotation % 360) + 360) % 360}°`, 'rotate_left');
+        contextMenu.classList.add('hidden');
+      });
+
+      // Favorite Toggle
+      btnFavorite.addEventListener('click', () => {
+        isFavorite = !isFavorite;
+        if (isFavorite) {
+          favIcon.style.fontVariationSettings = "'FILL' 1";
+          favIcon.classList.add('text-rose-400');
+          showToast('Added to Favorites', 'favorite');
+        } else {
+          favIcon.style.fontVariationSettings = "'FILL' 0";
+          favIcon.classList.remove('text-rose-400');
+          showToast('Removed from Favorites', 'favorite_border');
+        }
+      });
+
+      // Drawer Toggle
+      function toggleDrawer() {
+        isDrawerOpen = !isDrawerOpen;
+        if (isDrawerOpen) {
+          infoDrawer.classList.remove('hidden', '-mr-96');
+          btnInfo.classList.remove('bg-white/10', 'text-white/90');
+          btnInfo.classList.add('bg-primary', 'text-white', 'shadow-lg');
+        } else {
+          infoDrawer.classList.add('hidden', '-mr-96');
+          btnInfo.classList.remove('bg-primary', 'text-white', 'shadow-lg');
+          btnInfo.classList.add('bg-white/10', 'text-white/90');
+        }
+      }
+      btnInfo.addEventListener('click', toggleDrawer);
+      btnCloseDrawer.addEventListener('click', toggleDrawer);
+
+      // Context Menu Toggle
+      btnMore.addEventListener('click', (e) => {
+        e.stopPropagation();
+        contextMenu.classList.toggle('hidden');
+      });
+
+      document.addEventListener('click', (e) => {
+        if (!contextMenu.contains(e.target) && e.target !== btnMore) {
+          contextMenu.classList.add('hidden');
+        }
+      });
+
+      // Menu Actions
+      menuDownload.addEventListener('click', () => {
+        showToast('Downloading original file (4.8 MB)...', 'download');
+        contextMenu.classList.add('hidden');
+      });
+
+      menuSlideshow.addEventListener('click', () => {
+        showToast('Starting slideshow...', 'slideshow');
+        contextMenu.classList.add('hidden');
+      });
+
+      menuArchive.addEventListener('click', () => {
+        showToast('Moved photo to Archive', 'archive');
+        contextMenu.classList.add('hidden');
+      });
+
+      const handleDelete = () => {
+        showToast('Moved to Trash. Undo?', 'delete');
+        contextMenu.classList.add('hidden');
+      };
+      menuTrash.addEventListener('click', handleDelete);
+      btnTrash.addEventListener('click', handleDelete);
+
+      // Global Keyboard navigation
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight') {
+          updatePhoto(currentIndex + 1);
+        } else if (e.key === 'ArrowLeft') {
+          updatePhoto(currentIndex - 1);
+        } else if (e.key.toLowerCase() === 'i') {
+          toggleDrawer();
+        } else if (e.key.toLowerCase() === 'z') {
+          toggleZoom();
+        } else if (e.key === ' ' || e.code === 'Space') {
+          e.preventDefault();
+          showToast('Slideshow playback active', 'slideshow');
+        } else if (e.key === 'Escape') {
+          if (!contextMenu.classList.contains('hidden')) {
+            contextMenu.classList.add('hidden');
+          } else if (isDrawerOpen) {
+            toggleDrawer();
+          }
+        }
+      });
+    })();
+  </script>
+</div></main></div><nav class="fixed bottom-0 left-0 right-0 h-16 bg-surface-container-lowest/90 backdrop-blur-xl shadow-[0_-1px_8px_rgba(0,0,0,0.04)] z-40 flex items-center justify-around px-space-xs lg:hidden" data-active-classes="text-primary font-bold"><a class="flex flex-col items-center justify-center gap-0.5 text-on-surface-variant hover:text-on-surface" data-path="photos-timeline" href="#"><span class="material-symbols-outlined text-[22px]">photo_library</span><span class="font-label-sm text-label-sm">Photos</span></a><a class="flex flex-col items-center justify-center gap-0.5 text-on-surface-variant hover:text-on-surface" data-path="explore-and-search" href="#"><span class="material-symbols-outlined text-[22px]">search</span><span class="font-label-sm text-label-sm">Search</span></a><a class="flex flex-col items-center justify-center gap-0.5 text-on-surface-variant hover:text-on-surface" data-path="albums" href="#"><span class="material-symbols-outlined text-[22px]">photo_album</span><span class="font-label-sm text-label-sm">Albums</span></a><a class="flex flex-col items-center justify-center gap-0.5 text-on-surface-variant hover:text-on-surface" data-path="memories" href="#"><span class="material-symbols-outlined text-[22px]">slideshow</span><span class="font-label-sm text-label-sm">Memories</span></a><a class="flex flex-col items-center justify-center gap-0.5 text-on-surface-variant hover:text-on-surface" data-path="archive" href="#"><span class="material-symbols-outlined text-[22px]">collections_bookmark</span><span class="font-label-sm text-label-sm">Library</span></a></nav></body></html>

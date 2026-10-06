@@ -1,0 +1,13 @@
+.demo-search-page {
+  display: flex;
+  flex-direction: column;
+}
+
+.demo-search-page__bar {
+  padding: 16px 16px 12px;
+  position: sticky;
+  top: 64px;
+  z-index: 40;
+  background-color: var(--gp-bg);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}

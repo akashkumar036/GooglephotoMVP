@@ -1,0 +1,93 @@
+/* ──────────────────────────────────────
+   SearchBar
+   ────────────────────────────────────── */
+
+.search-bar-wrapper {
+  width: 100%;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  height: 46px;
+  background-color: var(--gp-surface);
+  border-radius: var(--gp-radius-pill);
+  border: 1px solid transparent;
+  transition:
+    background-color var(--gp-transition-fast),
+    border-color var(--gp-transition-fast),
+    box-shadow var(--gp-transition-fast);
+  overflow: hidden;
+}
+
+.search-bar--focused {
+  background-color: var(--gp-bg);
+  border-color: var(--gp-primary);
+  box-shadow: 0 0 0 3px var(--gp-primary-container);
+}
+
+.search-bar__icon-btn {
+  flex-shrink: 0;
+  width: 44px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gp-secondary-text);
+  transition: color var(--gp-transition-fast);
+}
+
+.search-bar--focused .search-bar__icon-btn {
+  color: var(--gp-primary);
+}
+
+.search-bar__icon-btn .material-symbols-outlined {
+  font-size: 20px;
+}
+
+.search-bar__input {
+  flex: 1;
+  background: none;
+  border: none;
+  outline: none;
+  color: var(--gp-on-surface);
+  font-size: 15px;
+  font-family: var(--font-body);
+  padding: 0;
+  min-width: 0;
+}
+
+.search-bar__input::placeholder {
+  color: var(--gp-secondary-text);
+}
+
+/* Remove browser's default search clear button */
+.search-bar__input::-webkit-search-cancel-button {
+  display: none;
+}
+
+.search-bar__clear-btn {
+  flex-shrink: 0;
+  width: 40px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gp-secondary-text);
+  transition: color var(--gp-transition-fast);
+}
+
+.search-bar__clear-btn:hover {
+  color: var(--gp-on-surface);
+}
+
+.search-bar__clear-btn .material-symbols-outlined {
+  font-size: 18px;
+}
+
+.search-bar__result-count {
+  margin-top: 10px;
+  padding: 0 4px;
+  font-size: 13px;
+  color: var(--gp-secondary-text);
+}
