@@ -82,7 +82,7 @@ export const Header: React.FC = () => {
                 if (e.key === 'Enter') handleSearch(searchQuery)
                 if (e.key === 'Escape') handleClear()
               }}
-              placeholder="Search your photos"
+              placeholder={isDemo ? 'Search demo photos, locations, events…' : 'Search your photos'}
               autoComplete="off"
               aria-label="Search photos"
             />

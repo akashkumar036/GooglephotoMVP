@@ -2,9 +2,8 @@
  * DemoSearchPage — shows filtered grid for search results under /demo/search or /my-photos/search
  */
 import React, { useEffect, useMemo } from 'react'
-import { useNavigate, useSearchParams, useLocation } from 'react-router-dom'
+import { useSearchParams, useLocation } from 'react-router-dom'
 import { PhotoGrid } from '../components/PhotoGrid'
-import { SearchBar } from '../components/SearchBar'
 import { useAppStore } from '../store/appStore'
 import { usePlaceholderPhotos } from '../hooks/usePlaceholderPhotos'
 import { useDebounce } from '../hooks/useDebounce'
@@ -15,7 +14,6 @@ import { getAllPhotos } from '../storage/photoDb'
 import './DemoSearchPage.css'
 
 export const DemoSearchPage: React.FC = () => {
-  const navigate = useNavigate()
   const location = useLocation()
   const [searchParams] = useSearchParams()
 
@@ -29,7 +27,6 @@ export const DemoSearchPage: React.FC = () => {
   const userPhotos = useAppStore((s) => s.userPhotos)
 
   const isUserMode = activeMode === 'my-photos' || location.pathname.startsWith('/my-photos')
-  const basePath = isUserMode ? '/my-photos' : '/demo'
 
   const [menuState, setMenuState] = React.useState<{ photoId: string; anchorEl: HTMLElement } | null>(null)
 
@@ -66,17 +63,6 @@ export const DemoSearchPage: React.FC = () => {
     return results.map((r) => r.photo)
   }, [debouncedSearch, index, allPhotos])
 
-  const handleSearch = (q: string) => {
-    setSearchQuery(q)
-    if (q.trim()) navigate(`${basePath}/search?q=${encodeURIComponent(q.trim())}`)
-    else navigate(basePath)
-  }
-
-  const handleClear = () => {
-    setSearchQuery('')
-    navigate(basePath)
-  }
-
   const handleMenuOpen = (photoId: string, anchorEl: HTMLElement) => {
     setMenuState({ photoId, anchorEl })
   }
@@ -98,16 +84,13 @@ export const DemoSearchPage: React.FC = () => {
 
   return (
     <div className="demo-search-page">
-      <div className="demo-search-page__bar">
-        <SearchBar
-          value={searchQuery}
-          onChange={setSearchQuery}
-          onSearch={handleSearch}
-          onClear={handleClear}
-          placeholder={isUserMode ? 'Search your photos…' : 'Search demo photos…'}
-          resultCount={filtered.length}
-        />
-      </div>
+      {debouncedSearch.trim() && (
+        <div className="demo-search-page__header">
+          <span className="demo-search-page__count">
+            {filtered.length} {filtered.length === 1 ? 'photo' : 'photos'} found
+          </span>
+        </div>
+      )}
 
       {searchQuery.trim().length > 0 && searchQuery !== debouncedSearch ? (
         <SkeletonGrid label={`Searching for "${searchQuery}"…`} />

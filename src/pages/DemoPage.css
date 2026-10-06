@@ -8,16 +8,6 @@
   min-height: 100%;
 }
 
-/* Search bar row */
-.demo-page__search {
-  padding: 16px 16px 12px;
-  position: sticky;
-  top: 64px;
-  z-index: 40;
-  background-color: var(--gp-bg);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-}
-
 /* Timeline grouped sections */
 .demo-page__timeline {
   padding: 8px 0 16px;

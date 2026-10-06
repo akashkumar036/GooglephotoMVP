@@ -7,9 +7,8 @@
  * Context menu and Clue sheet will be added in Phase 4 & 5
  */
 import React, { useEffect, useMemo } from 'react'
-import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom'
 import { PhotoGrid } from '../components/PhotoGrid'
-import { SearchBar } from '../components/SearchBar'
 import { useAppStore } from '../store/appStore'
 import { usePlaceholderPhotos } from '../hooks/usePlaceholderPhotos'
 import { useDebounce } from '../hooks/useDebounce'
@@ -20,7 +19,6 @@ import type { Photo } from '../types'
 import './DemoPage.css'
 
 export const DemoPage: React.FC = () => {
-  const navigate = useNavigate()
   const [searchParams] = useSearchParams()
   const setActiveMode = useAppStore((s) => s.setActiveMode)
   const selectedPhotoId = useAppStore((s) => s.selectedPhotoId)
@@ -69,16 +67,6 @@ export const DemoPage: React.FC = () => {
     }, 100)
   }
 
-  const handleSearch = (q: string) => {
-    setSearchQuery(q)
-    if (q.trim()) navigate(`/demo/search?q=${encodeURIComponent(q.trim())}`)
-  }
-
-  const handleClear = () => {
-    setSearchQuery('')
-    navigate('/demo')
-  }
-
   // Group by date for timeline view
   const groups = useMemo(() => {
     if (debouncedSearch.trim()) return null // no groups when searching
@@ -96,18 +84,6 @@ export const DemoPage: React.FC = () => {
 
   return (
     <div className="demo-page">
-      {/* Search bar */}
-      <div className="demo-page__search">
-        <SearchBar
-          value={searchQuery}
-          onChange={setSearchQuery}
-          onSearch={handleSearch}
-          onClear={handleClear}
-          placeholder="Search demo photos, locations, events…"
-          resultCount={debouncedSearch.trim() ? filtered.length : null}
-        />
-      </div>
-
       {/* Content */}
       {searchQuery.trim().length > 0 && searchQuery !== debouncedSearch ? (
         <SkeletonGrid label={`Searching for "${searchQuery}"…`} />
